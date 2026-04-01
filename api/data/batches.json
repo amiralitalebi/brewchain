@@ -3,9 +3,45 @@
     "batchId": "BATCH-001",
     "coffeeType": "Arabica",
     "origin": "Colombia",
-    "status": "Created",
+    "status": "Packaged",
     "createdAt": "2026-04-01T13:06:12.643Z",
-    "events": [],
+    "events": [
+      {
+        "eventId": "EVT-1775071051392",
+        "stage": "Roasted",
+        "location": "London Roastery",
+        "description": "Beans roasted and prepared for packaging",
+        "timestamp": "2026-04-01T19:17:31.392Z"
+      },
+      {
+        "eventId": "EVT-1775071258619",
+        "stage": "Packaged",
+        "location": "London Packaging Hub",
+        "description": "Batch packed and labelled for shipment",
+        "timestamp": "2026-04-01T19:20:58.619Z"
+      }
+    ],
+    "proof": {
+      "txId": null,
+      "appId": null,
+      "note": "Algorand proof not added yet"
+    }
+  },
+  {
+    "batchId": "BATCH-002",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Roasted",
+    "createdAt": "2026-04-01T19:28:50.086Z",
+    "events": [
+      {
+        "eventId": "EVT-1775071827159",
+        "stage": "Roasted",
+        "location": "London Roastery",
+        "description": "Beans roasted and prepared for packaging",
+        "timestamp": "2026-04-01T19:30:27.159Z"
+      }
+    ],
     "proof": {
       "txId": null,
       "appId": null,

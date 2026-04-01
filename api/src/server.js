@@ -95,6 +95,64 @@ app.post("/batches", (req, res) => {
   res.status(201).json(newBatch);
 });
 
+app.post("/batches/:batchId/events", (req, res) => {
+  const { stage, location, description } = req.body;
+
+  if (!stage || !location || !description) {
+    return res.status(400).json({
+      message: "stage, location, and description are required"
+    });
+  }
+
+  const batches = readBatches();
+  const batchIndex = batches.findIndex((item) => item.batchId === req.params.batchId);
+
+  if (batchIndex === -1) {
+    return res.status(404).json({
+      message: "Batch not found"
+    });
+  }
+
+  const newEvent = {
+    eventId: `EVT-${Date.now()}`,
+    stage,
+    location,
+    description,
+    timestamp: new Date().toISOString()
+  };
+
+  batches[batchIndex].events.push(newEvent);
+  batches[batchIndex].status = stage;
+
+  writeBatches(batches);
+
+  res.status(201).json({
+    message: "Event added successfully",
+    batch: batches[batchIndex]
+  });
+});
+
+app.get("/batches/:batchId/trace", (req, res) => {
+  const batches = readBatches();
+  const batch = batches.find((item) => item.batchId === req.params.batchId);
+
+  if (!batch) {
+    return res.status(404).json({
+      message: "Batch not found"
+    });
+  }
+
+  res.json({
+    batchId: batch.batchId,
+    coffeeType: batch.coffeeType,
+    origin: batch.origin,
+    currentStatus: batch.status,
+    createdAt: batch.createdAt,
+    proof: batch.proof,
+    timeline: batch.events
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`brewchain api running on port ${PORT}`);
 });
