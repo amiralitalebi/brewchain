@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname.replace("-8080", "-3000")}/api`;
 
 const createBatchForm = document.getElementById("create-batch-form");
 const addEventForm = document.getElementById("add-event-form");

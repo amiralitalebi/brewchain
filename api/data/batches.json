@@ -128,5 +128,21 @@
       "note": "Proof not anchored yet",
       "anchoredAt": null
     }
+  },
+  {
+    "batchId": "BATCH-20260401-234108",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Created",
+    "createdAt": "2026-04-01T22:41:19.093Z",
+    "events": [],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "NR7T3W7LJDUDLXVLCRPHXSQPDNL5FJMLOSNZCZEXIWJZJFWYQW3A",
+      "appId": null,
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-01T23:03:55.711Z"
+    }
   }
 ]
