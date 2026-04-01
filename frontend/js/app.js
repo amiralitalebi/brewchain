@@ -147,15 +147,16 @@ function renderBatches(batches) {
       const proofText = getProofStatusLabel(proof.proofStatus);
 
       return `
-        <article class="batch-card" data-batch-id="${batch.batchId}">
+        <article class="batch-card" data-batch-id="${batch.batchId}" data-status="${batch.status.toLowerCase()}">
           <div class="batch-card-head">
             <h3>${batch.batchId}</h3>
-            <span class="status-badge">${getStatusTone(batch.status)}</span>
+            <span class="status-badge" data-status="${batch.status.toLowerCase()}">${getStatusTone(batch.status)}</span>
           </div>
 
           <div class="card-tags">
-            <span class="origin-badge">${batch.origin}</span>
-            <span class="proof-badge">${proofText}</span>
+            <span class="origin-badge" data-origin="${batch.origin.toLowerCase()}">${batch.origin}</span>
+            <span class="type-badge" data-type="${batch.coffeeType.toLowerCase()}">${batch.coffeeType}</span>
+            <span class="proof-badge" data-proof="${proof.proofStatus}">${proofText}</span>
           </div>
 
           <div class="meta-row"><strong>Coffee Type:</strong> ${batch.coffeeType}</div>
@@ -220,15 +221,15 @@ function renderTrace(data) {
       <span>Batch ID</span>
       <strong>${data.batchId}</strong>
     </div>
-    <div class="trace-card">
+    <div class="trace-card trace-card-colored" data-type="${data.coffeeType.toLowerCase()}">
       <span>Coffee Type</span>
       <strong>${data.coffeeType}</strong>
     </div>
-    <div class="trace-card">
+    <div class="trace-card trace-card-colored" data-origin="${data.origin.toLowerCase()}">
       <span>Origin</span>
       <strong>${data.origin}</strong>
     </div>
-    <div class="trace-card">
+    <div class="trace-card trace-card-colored" data-status="${data.currentStatus.toLowerCase()}">
       <span>Current Status</span>
       <strong>${data.currentStatus}</strong>
     </div>
@@ -236,7 +237,7 @@ function renderTrace(data) {
       <span>Network</span>
       <strong>${proof.network}</strong>
     </div>
-    <div class="trace-card">
+    <div class="trace-card trace-card-colored" data-proof="${proof.proofStatus}">
       <span>Proof Status</span>
       <strong>${proofStatus}</strong>
     </div>
@@ -266,11 +267,11 @@ function renderTrace(data) {
   timeline.innerHTML = data.timeline
     .map(
       (event) => `
-        <article class="timeline-item">
+        <article class="timeline-item" data-status="${event.stage.toLowerCase()}">
           <div class="timeline-item-inner">
             <div class="timeline-topline">
               <h4>${event.stage}</h4>
-              <span class="timeline-stage-tag">${event.stage}</span>
+              <span class="timeline-stage-tag" data-status="${event.stage.toLowerCase()}">${event.stage}</span>
             </div>
             <p><strong>Location:</strong> ${event.location}</p>
             <p><strong>Description:</strong> ${event.description}</p>

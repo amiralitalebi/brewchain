@@ -266,41 +266,36 @@ body { overflow-x: hidden; }
 .chain-step {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 2px 0;
+  gap: 10px;
+  padding: 3px 0;
+  transition: opacity 0.2s;
 }
 .chain-step span {
-  font-size: 0.8rem;
+  font-size: 0.79rem;
   font-weight: 500;
+  color: var(--ctext, var(--text-2));
+  transition: color 0.2s;
 }
-.chain-step-done span  { color: var(--text-2); }
-.chain-step-active span { color: var(--gold-l); font-weight: 600; }
-.chain-step-dim span   { color: var(--text-3); }
 
 .cs-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: var(--gold-d);
-  border: 1.5px solid var(--gold);
-}
-.cs-dot-active {
-  background: var(--gold);
-  box-shadow: 0 0 10px var(--gold-glow);
-}
-.cs-dot-dim {
-  background: transparent;
-  border-color: var(--text-3);
+  border: 1.5px solid var(--cdot, var(--gold));
+  background: var(--cdot, var(--gold-d));
+  box-shadow: 0 0 7px var(--cdot, transparent);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .chain-line {
   width: 1.5px;
-  height: 14px;
-  background: var(--gold-d);
-  margin-left: 3px;
+  height: 12px;
+  background: linear-gradient(180deg, var(--cdot, var(--gold-d)), var(--cdot, var(--gold-d)));
+  margin-left: 3.5px;
+  opacity: 0.5;
+  transition: background 0.2s;
 }
-.chain-line-dim { background: var(--text-3); opacity: 0.4; }
 
 /* Guide list */
 .sb-guide { flex: 1; }
@@ -801,10 +796,184 @@ button {
 .trace-btn:hover { color: var(--gold-l) !important; border-color: rgba(200,136,44,0.25) !important; }
 .use-btn:hover   { color: var(--teal-l) !important;  border-color: rgba(15,214,170,0.2) !important; }
 
-/* Badges (rendered by JS) */
+/* ─── Semantic colour system ────────────────────────────────────
+   Every element that carries [data-status], [data-origin],
+   [data-type] or [data-proof] receives three CSS custom props:
+     --cbg     : background fill
+     --cborder : border stroke
+     --ctext   : text / icon colour
+   These cascade to all badge, tag and card components below.
+──────────────────────────────────────────────────────────────── */
+
+/* STATUS — supply chain stages */
+[data-status="created"] {
+  --cbg:     rgba(100, 160, 210, 0.13);
+  --cborder: rgba(100, 160, 210, 0.26);
+  --ctext:   #7AB4D8;
+  --cdot:    #7AB4D8;
+}
+[data-status="harvested"] {
+  --cbg:     rgba(62, 196, 110, 0.13);
+  --cborder: rgba(62, 196, 110, 0.26);
+  --ctext:   #4ECC82;
+  --cdot:    #4ECC82;
+}
+[data-status="processed"] {
+  --cbg:     rgba(210, 180, 48, 0.13);
+  --cborder: rgba(210, 180, 48, 0.26);
+  --ctext:   #D4BE4A;
+  --cdot:    #D4BE4A;
+}
+[data-status="roasted"] {
+  --cbg:     rgba(210, 96, 36, 0.14);
+  --cborder: rgba(210, 96, 36, 0.28);
+  --ctext:   #E07A40;
+  --cdot:    #E07A40;
+}
+[data-status="packaged"] {
+  --cbg:     rgba(148, 116, 220, 0.14);
+  --cborder: rgba(148, 116, 220, 0.28);
+  --ctext:   #AC96E4;
+  --cdot:    #AC96E4;
+}
+[data-status="shipped"] {
+  --cbg:     rgba(44, 164, 224, 0.13);
+  --cborder: rgba(44, 164, 224, 0.26);
+  --ctext:   #4AAEDE;
+  --cdot:    #4AAEDE;
+}
+[data-status="delivered"] {
+  --cbg:     rgba(38, 196, 122, 0.13);
+  --cborder: rgba(38, 196, 122, 0.26);
+  --ctext:   #3ED490;
+  --cdot:    #3ED490;
+}
+
+/* ORIGINS */
+[data-origin="colombia"] {
+  --cbg:     rgba(224, 72, 72, 0.13);
+  --cborder: rgba(224, 72, 72, 0.26);
+  --ctext:   #E87878;
+  --cdot:    #E87878;
+}
+[data-origin="brazil"] {
+  --cbg:     rgba(44, 196, 100, 0.13);
+  --cborder: rgba(44, 196, 100, 0.26);
+  --ctext:   #4EC87A;
+  --cdot:    #4EC87A;
+}
+[data-origin="ethiopia"] {
+  --cbg:     rgba(210, 150, 36, 0.13);
+  --cborder: rgba(210, 150, 36, 0.26);
+  --ctext:   #D4A040;
+  --cdot:    #D4A040;
+}
+[data-origin="kenya"] {
+  --cbg:     rgba(196, 48, 80, 0.13);
+  --cborder: rgba(196, 48, 80, 0.26);
+  --ctext:   #E06484;
+  --cdot:    #E06484;
+}
+[data-origin="vietnam"] {
+  --cbg:     rgba(224, 96, 52, 0.13);
+  --cborder: rgba(224, 96, 52, 0.26);
+  --ctext:   #E8845A;
+  --cdot:    #E8885A;
+}
+
+/* COFFEE TYPES */
+[data-type="arabica"] {
+  --cbg:     rgba(200, 136, 44, 0.13);
+  --cborder: rgba(200, 136, 44, 0.26);
+  --ctext:   #D4A852;
+  --cdot:    #D4A852;
+}
+[data-type="robusta"] {
+  --cbg:     rgba(192, 72, 40, 0.13);
+  --cborder: rgba(192, 72, 40, 0.26);
+  --ctext:   #D47658;
+  --cdot:    #D47658;
+}
+[data-type="blend"] {
+  --cbg:     rgba(148, 116, 212, 0.13);
+  --cborder: rgba(148, 116, 212, 0.26);
+  --ctext:   #B09AE0;
+  --cdot:    #B09AE0;
+}
+
+/* PROOF STATUS */
+[data-proof="pending"] {
+  --cbg:     rgba(116, 148, 184, 0.12);
+  --cborder: rgba(116, 148, 184, 0.22);
+  --ctext:   #88AACC;
+  --cdot:    #88AACC;
+}
+[data-proof="anchored"] {
+  --cbg:     rgba(14, 214, 170, 0.12);
+  --cborder: rgba(14, 214, 170, 0.24);
+  --ctext:   #0FD6AA;
+  --cdot:    #0FD6AA;
+}
+[data-proof="failed"] {
+  --cbg:     rgba(224, 72, 72, 0.12);
+  --cborder: rgba(224, 72, 72, 0.24);
+  --ctext:   #E87272;
+  --cdot:    #E87272;
+}
+
+/* ─── Apply colour vars to badge components ────────────────── */
 .status-badge,
+.origin-badge,
+.type-badge,
 .proof-badge,
-.origin-badge {
+.timeline-stage-tag {
+  background:   var(--cbg,     rgba(200, 136, 44, 0.12));
+  border-color: var(--cborder, rgba(200, 136, 44, 0.20));
+  color:        var(--ctext,   var(--gold-l));
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Coloured trace summary cards */
+.trace-card-colored {
+  background:   var(--cbg,     rgba(255,255,255,0.03));
+  border-color: var(--cborder, rgba(255,255,255,0.07));
+}
+.trace-card-colored strong {
+  color: var(--ctext, var(--text));
+}
+
+/* ─── Sidebar chain flow — coloured dots per stage ─────────── */
+.chain-step[data-stage] .cs-dot {
+  background:   var(--cdot, var(--gold-d));
+  border-color: var(--cdot, var(--gold));
+  box-shadow: 0 0 8px var(--cdot, var(--gold-glow));
+}
+.chain-step[data-stage] span {
+  color: var(--ctext, var(--text-2));
+  font-weight: 500;
+}
+
+/* Timeline item left-bar inherits status colour */
+.timeline-item::before {
+  background: linear-gradient(180deg,
+    var(--ctext, var(--gold)),
+    var(--ctext, var(--teal)) 100%
+  );
+}
+
+/* Batch card left-bar inherits status colour */
+.batch-card::before {
+  background: linear-gradient(180deg,
+    var(--ctext, var(--gold)),
+    rgba(0,0,0,0)
+  );
+}
+
+/* Badge base geometry — colours come from the semantic system above */
+.status-badge,
+.origin-badge,
+.type-badge,
+.proof-badge {
   display: inline-flex;
   align-items: center;
   padding: 4px 9px;
@@ -816,12 +985,6 @@ button {
   border: 1px solid transparent;
   white-space: nowrap;
 }
-
-.status-badge  { background: rgba(200,136,44,0.12); color: var(--gold-l);  border-color: rgba(200,136,44,0.2); }
-.origin-badge  { background: rgba(46,214,122,0.10); color: #6EE8A2;        border-color: rgba(46,214,122,0.18); }
-.proof-badge   { background: rgba(15,214,170,0.10); color: var(--teal-l);  border-color: rgba(15,214,170,0.18); }
-
-/* ─── Trace controls ────────────────────────────────────────── */
 .trace-controls {
   display: flex;
   align-items: center;
@@ -830,7 +993,7 @@ button {
 }
 .trace-controls input { min-width: 200px; flex: 1; }
 
-/* ─── Empty state ───────────────────────────────────────────── */
+/* ─── Trace controls ────────────────────────────────────────── */
 .empty-state {
   padding: 20px;
   border-radius: var(--r);

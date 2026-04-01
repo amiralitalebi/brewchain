@@ -160,5 +160,29 @@
       "note": "Proof anchored on Algorand using note transaction",
       "anchoredAt": "2026-04-01T23:08:57.028Z"
     }
+  },
+  {
+    "batchId": "BATCH-20260402-003154",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Harvested",
+    "createdAt": "2026-04-01T23:31:58.802Z",
+    "events": [
+      {
+        "eventId": "EVT-1775086329414",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-01T23:32:09.414Z"
+      }
+    ],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "3DW3OB4LS6PLRZZP2G4QXU4JJWTZIZJWTN4IQLYZW5MFWC72CJGQ",
+      "appId": null,
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-01T23:32:17.031Z"
+    }
   }
 ]
