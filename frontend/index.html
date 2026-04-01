@@ -13,115 +13,134 @@
   <div class="bg-grid"></div>
 
   <div class="app-shell">
-    <header class="topbar glass">
-      <div class="brand-area">
-        <div class="brand-mark">
-          <span>☕</span>
-        </div>
-
-        <div class="brand-copy">
-          <div class="top-tags">
-            <span class="pill pill-coffee">Coffee Traceability</span>
-            <span class="pill pill-chain">Algorand Ready</span>
-            <span class="pill pill-hybrid">Hybrid DApp</span>
+    <aside class="sidebar glass">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="brand-mark">
+            <span>☕</span>
           </div>
 
-          <h1>Brewchain</h1>
-          <p class="subtitle">
-            Trace coffee batches across the supply chain with a modern ledger-backed workflow.
+          <div class="sidebar-brand-copy">
+            <h1>Brewchain</h1>
+            <p>Coffee supply chain traceability with a hybrid Algorand proof model.</p>
+          </div>
+        </div>
+
+        <div class="sidebar-badges">
+          <span class="pill pill-coffee">Coffee Traceability</span>
+          <span class="pill pill-chain">Algorand Ready</span>
+          <span class="pill pill-hybrid">Hybrid DApp</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <p class="sidebar-label">System status</p>
+
+        <div class="sidebar-status-list">
+          <div class="status-card glass-soft">
+            <span class="status-label">Network</span>
+            <strong>Algorand</strong>
+          </div>
+
+          <div class="status-card glass-soft">
+            <span class="status-label">Gateway</span>
+            <strong>Online</strong>
+          </div>
+
+          <div class="status-card glass-soft">
+            <span class="status-label">Registry</span>
+            <strong>Live</strong>
+          </div>
+        </div>
+      </div>
+
+      <details class="guide-panel glass-soft" open>
+        <summary>
+          <span class="guide-title-wrap">
+            <span class="guide-icon">📘</span>
+            <span>
+              <strong>Quick Guide</strong>
+              <small>Workflow help</small>
+            </span>
+          </span>
+          <span class="guide-chevron">⌄</span>
+        </summary>
+
+        <div class="guide-content">
+          <div class="guide-block">
+            <h3>Getting started</h3>
+            <ul>
+              <li>Create a batch with a generated or custom ID</li>
+              <li>Select a registry card to trace it instantly</li>
+              <li>Use the event form to push the batch forward</li>
+              <li>Anchor proof when the batch is ready</li>
+            </ul>
+          </div>
+
+          <div class="guide-block">
+            <h3>Typical flow</h3>
+            <div class="flow-tags">
+              <span class="flow-step">Created</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Harvested</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Processed</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Roasted</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Packaged</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Shipped</span>
+              <span class="flow-arrow">→</span>
+              <span class="flow-step">Delivered</span>
+            </div>
+          </div>
+        </div>
+      </details>
+    </aside>
+
+    <main class="workspace">
+      <header class="workspace-header glass">
+        <div class="workspace-heading">
+          <div class="workspace-kicker">Supply Chain Workspace</div>
+          <h2>Track, update, and verify coffee batches</h2>
+          <p class="workspace-subtitle">
+            Manage off-chain batch metadata while preparing proof references for Algorand anchoring.
           </p>
         </div>
-      </div>
 
-      <div class="status-strip">
-        <div class="status-card glass-soft">
-          <span class="status-label">Network</span>
-          <strong>Algorand</strong>
-        </div>
-        <div class="status-card glass-soft">
-          <span class="status-label">Gateway</span>
-          <strong>Online</strong>
-        </div>
-        <div class="status-card glass-soft">
-          <span class="status-label">Registry</span>
-          <strong>Live</strong>
-        </div>
-      </div>
-    </header>
-
-    <main class="dashboard">
-      <section class="hero-grid">
-        <article class="hero-card glass">
-          <div class="hero-card-icon">🤎</div>
-          <div>
-            <p class="hero-card-label">Supply Chain</p>
-            <h2>Batch Registry</h2>
-            <p>Register lots, update stage progress, and trace provenance in one place.</p>
-          </div>
-        </article>
-
-        <article class="hero-card glass">
-          <div class="hero-card-icon">⛓️</div>
-          <div>
-            <p class="hero-card-label">Proof Model</p>
-            <h2>Off-chain + On-chain</h2>
-            <p>Operational metadata is stored off-chain while proof references are reserved for blockchain anchoring.</p>
-          </div>
-        </article>
-
-        <article class="hero-card glass">
-          <div class="hero-card-icon">🛡️</div>
-          <div>
-            <p class="hero-card-label">Verification</p>
-            <h2>Proof-Ready Records</h2>
-            <p>Each batch is prepared for transaction and app references as the chain layer evolves.</p>
-          </div>
-        </article>
-      </section>
-
-      <section class="main-grid">
-        <aside class="left-column">
-          <details class="guide-panel glass">
-            <summary>
-              <span class="guide-title-wrap">
-                <span class="guide-icon">📘</span>
-                <span>
-                  <strong>Quick Guide</strong>
-                  <small>Optional help</small>
-                </span>
-              </span>
-              <span class="guide-chevron">⌄</span>
-            </summary>
-
-            <div class="guide-content">
-              <div class="guide-block">
-                <h3>Getting started</h3>
-                <ul>
-                  <li>Generate or edit a batch ID</li>
-                  <li>Create a batch using the default values or your own</li>
-                  <li>Click a batch card to trace it instantly</li>
-                  <li>Use “Use in Event Form” to update a selected batch</li>
-                  <li>Use “Anchor Proof” after tracing a batch to create its proof reference</li>
-                </ul>
-              </div>
-
-              <div class="guide-block">
-                <h3>Typical flow</h3>
-                <div class="flow-tags">
-                  <span class="flow-step">Created</span>
-                  <span class="flow-arrow">→</span>
-                  <span class="flow-step">Harvested</span>
-                  <span class="flow-arrow">→</span>
-                  <span class="flow-step">Processed</span>
-                  <span class="flow-arrow">→</span>
-                  <span class="flow-step">Roasted</span>
-                  <span class="flow-arrow">→</span>
-                  <span class="flow-step">Packaged</span>
-                </div>
-              </div>
+        <div class="hero-grid">
+          <article class="hero-card glass-soft">
+            <div class="hero-card-icon">🤎</div>
+            <div>
+              <p class="hero-card-label">Registry</p>
+              <h3>Batch Operations</h3>
+              <p>Create and manage coffee lots in a clean operational view.</p>
             </div>
-          </details>
+          </article>
 
+          <article class="hero-card glass-soft">
+            <div class="hero-card-icon">⛓️</div>
+            <div>
+              <p class="hero-card-label">Proof Model</p>
+              <h3>Off-chain + On-chain</h3>
+              <p>Use batch storage off-chain and add proof references when needed.</p>
+            </div>
+          </article>
+
+          <article class="hero-card glass-soft">
+            <div class="hero-card-icon">🛡️</div>
+            <div>
+              <p class="hero-card-label">Verification</p>
+              <h3>Trace and Anchor</h3>
+              <p>Open any batch timeline and move it toward anchored proof status.</p>
+            </div>
+          </article>
+        </div>
+      </header>
+
+      <section class="content-grid">
+        <section class="forms-column">
           <section class="panel glass">
             <div class="panel-head">
               <div>
@@ -228,9 +247,9 @@
 
             <div id="event-message" class="message-box hidden"></div>
           </section>
-        </aside>
+        </section>
 
-        <section class="right-column">
+        <section class="data-column">
           <section class="panel glass">
             <div class="section-head">
               <div>

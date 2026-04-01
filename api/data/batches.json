@@ -22,9 +22,12 @@
       }
     ],
     "proof": {
-      "txId": null,
-      "appId": null,
-      "note": "Algorand proof not added yet"
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "ALGOTX-BATCH001-MNGJM4BF-10LCKZ4N",
+      "appId": "ALGAPP-MNGJM4BF",
+      "note": "Proof reference anchored through Hybrid DApp API stub",
+      "anchoredAt": "2026-04-01T21:13:27.387Z"
     }
   },
   {
@@ -43,9 +46,87 @@
       }
     ],
     "proof": {
+      "network": "Algorand",
+      "proofStatus": "pending",
       "txId": null,
       "appId": null,
-      "note": "Algorand proof not added yet"
+      "note": "Algorand proof not added yet",
+      "anchoredAt": null
+    }
+  },
+  {
+    "batchId": "BATCH-20260401-210638",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Delivered",
+    "createdAt": "2026-04-01T20:06:43.641Z",
+    "events": [
+      {
+        "eventId": "EVT-1775074012139",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-01T20:06:52.139Z"
+      },
+      {
+        "eventId": "EVT-1775074015593",
+        "stage": "Processed",
+        "location": "Processing Station",
+        "description": "Beans processed and prepared for the next supply chain stage",
+        "timestamp": "2026-04-01T20:06:55.593Z"
+      },
+      {
+        "eventId": "EVT-1775074018019",
+        "stage": "Roasted",
+        "location": "London Roastery",
+        "description": "Beans roasted and prepared for packaging",
+        "timestamp": "2026-04-01T20:06:58.019Z"
+      },
+      {
+        "eventId": "EVT-1775074021023",
+        "stage": "Packaged",
+        "location": "London Packaging Hub",
+        "description": "Batch packed and labelled for shipment",
+        "timestamp": "2026-04-01T20:07:01.023Z"
+      },
+      {
+        "eventId": "EVT-1775074023369",
+        "stage": "Shipped",
+        "location": "Distribution Centre",
+        "description": "Batch dispatched to the next destination",
+        "timestamp": "2026-04-01T20:07:03.369Z"
+      },
+      {
+        "eventId": "EVT-1775074025215",
+        "stage": "Delivered",
+        "location": "Retail Destination",
+        "description": "Batch delivered successfully to final destination",
+        "timestamp": "2026-04-01T20:07:05.215Z"
+      }
+    ],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "ALGOTX-BATCH20260401210638-MNGJYYAO-KDIUZH94",
+      "appId": "ALGAPP-MNGJYYAO",
+      "note": "Proof reference anchored through Hybrid DApp API stub",
+      "anchoredAt": "2026-04-01T21:23:26.112Z"
+    }
+  },
+  {
+    "batchId": "BATCH-20260401-225200",
+    "coffeeType": "Blend",
+    "origin": "Vietnam",
+    "status": "Created",
+    "createdAt": "2026-04-01T21:52:05.480Z",
+    "events": [],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "pending",
+      "txId": null,
+      "appId": null,
+      "note": "Proof not anchored yet",
+      "anchoredAt": null
     }
   }
 ]

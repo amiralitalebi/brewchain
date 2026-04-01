@@ -1,3 +1,4 @@
+import algosdk from "algosdk";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -56,15 +57,45 @@ function writeBatches(batches) {
   fs.writeFileSync(dataFilePath, JSON.stringify(batches, null, 2), "utf8");
 }
 
-function generateProofReference(batchId) {
-  const cleanBatchId = String(batchId).replace(/[^A-Za-z0-9]/g, "").toUpperCase();
-  const timestampPart = Date.now().toString(36).toUpperCase();
-  const randomPart = Math.random().toString(36).slice(2, 10).toUpperCase();
+async function sendAlgorandProofTransaction(batchId) {
+  const algodServer = process.env.ALGOD_SERVER;
+  const algodPort = process.env.ALGOD_PORT;
+  const algodToken = process.env.ALGOD_TOKEN;
+  const algodMnemonic = process.env.ALGOD_MNEMONIC;
+
+  if (!algodServer || !algodPort || !algodToken || !algodMnemonic) {
+    throw new Error("Algorand environment variables are missing");
+  }
+
+  const cleanMnemonic = algodMnemonic.trim().replace(/\s+/g, " ");
+  console.log("Algorand mnemonic word count:", cleanMnemonic.split(" ").length);
+
+  const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
+  const account = algosdk.mnemonicToSecretKey(cleanMnemonic);
+
+  const suggestedParams = await algodClient.getTransactionParams().do();
+
+  const noteObject = {
+    batchId,
+    anchoredAt: new Date().toISOString(),
+    source: "brewchain-hybrid-dapp"
+  };
+
+  const note = new TextEncoder().encode(JSON.stringify(noteObject));
+
+  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    sender: account.addr,
+    receiver: account.addr,
+    amount: 0,
+    note,
+    suggestedParams
+  });
+
+  const signedTxn = txn.signTxn(account.sk);
+  const response = await algodClient.sendRawTransaction(signedTxn).do();
 
   return {
-    txId: `ALGOTX-${cleanBatchId}-${timestampPart}-${randomPart}`,
-    appId: `ALGAPP-${timestampPart}`,
-    anchoredAt: new Date().toISOString()
+    txId: response.txid
   };
 }
 
@@ -166,7 +197,7 @@ app.post("/batches/:batchId/events", (req, res) => {
   });
 });
 
-app.post("/batches/:batchId/anchor-proof", (req, res) => {
+app.post("/batches/:batchId/anchor-proof", async (req, res) => {
   const batches = readBatches();
   const batchIndex = batches.findIndex((item) => item.batchId === req.params.batchId);
 
@@ -186,23 +217,30 @@ app.post("/batches/:batchId/anchor-proof", (req, res) => {
     });
   }
 
-  const proofReference = generateProofReference(currentBatch.batchId);
+  try {
+    const txResult = await sendAlgorandProofTransaction(currentBatch.batchId);
 
-  batches[batchIndex].proof = buildDefaultProof({
-    ...currentProof,
-    proofStatus: "anchored",
-    txId: proofReference.txId,
-    appId: proofReference.appId,
-    anchoredAt: proofReference.anchoredAt,
-    note: "Proof reference anchored through Hybrid DApp API stub"
-  });
+    batches[batchIndex].proof = buildDefaultProof({
+      ...currentProof,
+      proofStatus: "anchored",
+      txId: txResult.txId,
+      appId: null,
+      anchoredAt: new Date().toISOString(),
+      note: "Proof anchored on Algorand using note transaction"
+    });
 
-  writeBatches(batches);
+    writeBatches(batches);
 
-  res.status(200).json({
-    message: "Proof anchored successfully",
-    batch: batches[batchIndex]
-  });
+    return res.status(200).json({
+      message: "Proof anchored successfully",
+      batch: batches[batchIndex]
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to anchor proof on Algorand",
+      error: error.message
+    });
+  }
 });
 
 app.get("/batches/:batchId/trace", (req, res) => {
