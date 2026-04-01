@@ -1,1 +1,25 @@
-console.log("brewchain gateway starting");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3001";
+
+app.use(cors());
+app.use(express.json());
+
+app.get("/health", (req, res) => {
+  res.json({
+    status: "ok",
+    service: "brewchain-gateway",
+    apiBaseUrl: API_BASE_URL,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`brewchain gateway running on port ${PORT}`);
+});
