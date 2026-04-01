@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "batchId": "BATCH-001",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Created",
+    "createdAt": "2026-04-01T13:06:12.643Z",
+    "events": [],
+    "proof": {
+      "txId": null,
+      "appId": null,
+      "note": "Algorand proof not added yet"
+    }
+  }
+]
