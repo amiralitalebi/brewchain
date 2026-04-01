@@ -144,5 +144,21 @@
       "note": "Proof anchored on Algorand using note transaction",
       "anchoredAt": "2026-04-01T23:03:55.711Z"
     }
+  },
+  {
+    "batchId": "BATCH-20260402-000824",
+    "coffeeType": "Blend",
+    "origin": "Kenya",
+    "status": "Created",
+    "createdAt": "2026-04-01T23:08:32.981Z",
+    "events": [],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "B4M6WIYK26YAMPLUEFKA5N2JTGX4FR6LOOQB4UJAWVBSA7TVOZ7Q",
+      "appId": null,
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-01T23:08:57.028Z"
+    }
   }
 ]
