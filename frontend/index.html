@@ -3,50 +3,282 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brewchain Hybrid DApp</title>
+  <title>Brewchain</title>
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Coffee Supply Chain Traceability Hybrid DApp</h1>
-    <p class="subtitle">Simple Algorand-based hybrid DApp for CN6035</p>
+  <div class="bg-blur blur-a"></div>
+  <div class="bg-blur blur-b"></div>
+  <div class="bg-noise"></div>
+  <div class="bg-grid"></div>
 
-    <section class="card">
-      <h2>Create Batch</h2>
-      <form id="create-batch-form">
-        <input type="text" id="batchId" placeholder="Batch ID" required />
-        <input type="text" id="coffeeType" placeholder="Coffee Type" required />
-        <input type="text" id="origin" placeholder="Origin" required />
-        <input type="text" id="status" placeholder="Status" value="Created" required />
-        <button type="submit">Create Batch</button>
-      </form>
-    </section>
+  <div class="app-shell">
+    <header class="topbar glass">
+      <div class="brand-area">
+        <div class="brand-mark">
+          <span>☕</span>
+        </div>
 
-    <section class="card">
-      <h2>Add Event</h2>
-      <form id="add-event-form">
-        <input type="text" id="eventBatchId" placeholder="Batch ID" required />
-        <input type="text" id="stage" placeholder="Stage" required />
-        <input type="text" id="location" placeholder="Location" required />
-        <input type="text" id="description" placeholder="Description" required />
-        <button type="submit">Add Event</button>
-      </form>
-    </section>
+        <div class="brand-copy">
+          <div class="top-tags">
+            <span class="pill pill-coffee">Coffee Traceability</span>
+            <span class="pill pill-chain">Algorand Ready</span>
+            <span class="pill pill-hybrid">Hybrid DApp</span>
+          </div>
 
-    <section class="card">
-      <h2>Batch List</h2>
-      <button id="load-batches-btn">Load All Batches</button>
-      <pre id="batches-output"></pre>
-    </section>
-
-    <section class="card">
-      <h2>Trace Batch</h2>
-      <div class="trace-controls">
-        <input type="text" id="traceBatchId" placeholder="Enter Batch ID" />
-        <button id="trace-batch-btn">Trace Batch</button>
+          <h1>Brewchain</h1>
+          <p class="subtitle">
+            Trace coffee batches across the supply chain with a modern ledger-backed workflow.
+          </p>
+        </div>
       </div>
-      <pre id="trace-output"></pre>
-    </section>
+
+      <div class="status-strip">
+        <div class="status-card glass-soft">
+          <span class="status-label">Network</span>
+          <strong>Algorand</strong>
+        </div>
+        <div class="status-card glass-soft">
+          <span class="status-label">Gateway</span>
+          <strong>Online</strong>
+        </div>
+        <div class="status-card glass-soft">
+          <span class="status-label">Registry</span>
+          <strong>Live</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="hero-grid">
+        <article class="hero-card glass">
+          <div class="hero-card-icon">🤎</div>
+          <div>
+            <p class="hero-card-label">Supply Chain</p>
+            <h2>Batch Registry</h2>
+            <p>Register lots, update stage progress, and trace provenance in one place.</p>
+          </div>
+        </article>
+
+        <article class="hero-card glass">
+          <div class="hero-card-icon">⛓️</div>
+          <div>
+            <p class="hero-card-label">Proof Model</p>
+            <h2>Off-chain + On-chain</h2>
+            <p>Operational metadata is stored off-chain while proof references are reserved for blockchain anchoring.</p>
+          </div>
+        </article>
+
+        <article class="hero-card glass">
+          <div class="hero-card-icon">🛡️</div>
+          <div>
+            <p class="hero-card-label">Verification</p>
+            <h2>Proof-Ready Records</h2>
+            <p>Each batch is prepared for transaction and app references as the chain layer evolves.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="main-grid">
+        <aside class="left-column">
+          <details class="guide-panel glass">
+            <summary>
+              <span class="guide-title-wrap">
+                <span class="guide-icon">📘</span>
+                <span>
+                  <strong>Quick Guide</strong>
+                  <small>Optional help</small>
+                </span>
+              </span>
+              <span class="guide-chevron">⌄</span>
+            </summary>
+
+            <div class="guide-content">
+              <div class="guide-block">
+                <h3>Getting started</h3>
+                <ul>
+                  <li>Generate or edit a batch ID</li>
+                  <li>Create a batch using the default values or your own</li>
+                  <li>Click a batch card to trace it instantly</li>
+                  <li>Use “Use in Event Form” to update a selected batch</li>
+                </ul>
+              </div>
+
+              <div class="guide-block">
+                <h3>Typical flow</h3>
+                <div class="flow-tags">
+                  <span class="flow-step">Created</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Harvested</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Processed</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Roasted</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Packaged</span>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <section class="panel glass">
+            <div class="panel-head">
+              <div>
+                <span class="section-chip chip-create">Create</span>
+                <h2>Register Batch</h2>
+                <p class="panel-subtitle">Create a new coffee batch entry with smart defaults.</p>
+              </div>
+              <div class="panel-icon">＋</div>
+            </div>
+
+            <form id="create-batch-form" class="form-grid">
+              <div class="field-group">
+                <label for="batchId">Batch ID</label>
+                <div class="inline-field">
+                  <input type="text" id="batchId" placeholder="Batch ID" required />
+                  <button type="button" id="generate-batch-id-btn" class="secondary-btn compact-btn">
+                    Generate
+                  </button>
+                </div>
+              </div>
+
+              <div class="split-fields">
+                <div class="field-group">
+                  <label for="coffeeType">Coffee Type</label>
+                  <select id="coffeeType" required>
+                    <option value="Arabica" selected>Arabica</option>
+                    <option value="Robusta">Robusta</option>
+                    <option value="Blend">Blend</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="origin">Origin</label>
+                  <select id="origin" required>
+                    <option value="Colombia" selected>Colombia</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Vietnam">Vietnam</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="status">Initial Status</label>
+                <select id="status" required>
+                  <option value="Created" selected>Created</option>
+                  <option value="Harvested">Harvested</option>
+                  <option value="Processed">Processed</option>
+                  <option value="Roasted">Roasted</option>
+                  <option value="Packaged">Packaged</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              </div>
+
+              <button type="submit" class="primary-btn">Create Batch</button>
+            </form>
+
+            <div id="create-message" class="message-box hidden"></div>
+          </section>
+
+          <section class="panel glass">
+            <div class="panel-head">
+              <div>
+                <span class="section-chip chip-update">Update</span>
+                <h2>Add Event</h2>
+                <p class="panel-subtitle">Push a selected batch through the next stage.</p>
+              </div>
+              <div class="panel-icon">⤴</div>
+            </div>
+
+            <form id="add-event-form" class="form-grid">
+              <div class="field-group">
+                <label for="eventBatchId">Batch ID</label>
+                <input type="text" id="eventBatchId" placeholder="Select or type a batch ID" required />
+              </div>
+
+              <div class="field-group">
+                <label for="stage">Stage</label>
+                <select id="stage" required>
+                  <option value="Created">Created</option>
+                  <option value="Harvested">Harvested</option>
+                  <option value="Processed">Processed</option>
+                  <option value="Roasted" selected>Roasted</option>
+                  <option value="Packaged">Packaged</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" value="London Roastery" required />
+              </div>
+
+              <div class="field-group">
+                <label for="description">Description</label>
+                <textarea id="description" rows="4" required>Beans roasted and prepared for packaging</textarea>
+              </div>
+
+              <button type="submit" class="primary-btn">Add Event</button>
+            </form>
+
+            <div id="event-message" class="message-box hidden"></div>
+          </section>
+        </aside>
+
+        <section class="right-column">
+          <section class="panel glass">
+            <div class="section-head">
+              <div>
+                <span class="section-chip chip-registry">Registry</span>
+                <h2>Batch Registry</h2>
+                <p class="panel-subtitle">Browse active coffee lots and jump straight into tracing.</p>
+              </div>
+
+              <button id="load-batches-btn" type="button" class="secondary-btn">
+                Refresh
+              </button>
+            </div>
+
+            <div id="batches-list" class="batches-grid"></div>
+          </section>
+
+          <section class="panel glass">
+            <div class="section-head trace-head">
+              <div>
+                <span class="section-chip chip-trace">Trace</span>
+                <h2>Timeline Explorer</h2>
+                <p class="panel-subtitle">Inspect batch movement and proof-ready references.</p>
+              </div>
+
+              <div class="trace-controls">
+                <input type="text" id="traceBatchId" placeholder="Enter Batch ID" />
+                <button id="trace-batch-btn" type="button" class="primary-btn">Trace</button>
+              </div>
+            </div>
+
+            <div id="trace-empty" class="empty-state">
+              Choose a batch card or enter a batch ID to open the timeline.
+            </div>
+
+            <div id="trace-result" class="hidden">
+              <div id="trace-summary" class="trace-summary"></div>
+
+              <div class="timeline-wrap">
+                <div class="timeline-header-row">
+                  <h3 class="timeline-title">Timeline Events</h3>
+                  <span class="timeline-hint">Ordered by recorded event history</span>
+                </div>
+                <div id="timeline" class="timeline"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
   </div>
 
   <script src="./js/app.js"></script>
