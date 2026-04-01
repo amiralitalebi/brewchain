@@ -17,10 +17,35 @@ const dataFilePath = path.join(__dirname, "..", "data", "batches.json");
 app.use(cors());
 app.use(express.json());
 
+function buildDefaultProof(proof = {}) {
+  return {
+    network: "Algorand",
+    proofStatus: "pending",
+    txId: null,
+    appId: null,
+    note: "Proof not anchored yet",
+    ...proof
+  };
+}
+
+function normaliseBatch(batch) {
+  return {
+    ...batch,
+    events: Array.isArray(batch.events) ? batch.events : [],
+    proof: buildDefaultProof(batch.proof)
+  };
+}
+
 function readBatches() {
   try {
     const data = fs.readFileSync(dataFilePath, "utf8");
-    return JSON.parse(data || "[]");
+    const parsed = JSON.parse(data || "[]");
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.map(normaliseBatch);
   } catch (error) {
     return [];
   }
@@ -82,11 +107,7 @@ app.post("/batches", (req, res) => {
     status,
     createdAt: new Date().toISOString(),
     events: [],
-    proof: {
-      txId: null,
-      appId: null,
-      note: "Algorand proof not added yet"
-    }
+    proof: buildDefaultProof()
   };
 
   batches.push(newBatch);
@@ -123,6 +144,7 @@ app.post("/batches/:batchId/events", (req, res) => {
 
   batches[batchIndex].events.push(newEvent);
   batches[batchIndex].status = stage;
+  batches[batchIndex].proof = buildDefaultProof(batches[batchIndex].proof);
 
   writeBatches(batches);
 
@@ -148,7 +170,7 @@ app.get("/batches/:batchId/trace", (req, res) => {
     origin: batch.origin,
     currentStatus: batch.status,
     createdAt: batch.createdAt,
-    proof: batch.proof,
+    proof: buildDefaultProof(batch.proof),
     timeline: batch.events
   });
 });

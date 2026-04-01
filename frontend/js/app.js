@@ -112,6 +112,26 @@ function getStatusTone(status) {
   return tones[status] || status;
 }
 
+function getProofData(proof = {}) {
+  return {
+    network: proof.network || "Algorand",
+    proofStatus: proof.proofStatus || "pending",
+    txId: proof.txId || null,
+    appId: proof.appId || null,
+    note: proof.note || "Proof not anchored yet"
+  };
+}
+
+function getProofStatusLabel(proofStatus) {
+  const labels = {
+    pending: "Proof Pending",
+    anchored: "Proof Anchored",
+    failed: "Proof Failed"
+  };
+
+  return labels[proofStatus] || "Proof Pending";
+}
+
 function renderBatches(batches) {
   if (!batches.length) {
     batchesList.innerHTML = `<div class="empty-state">No batches found yet. Register a batch to start building the trace history.</div>`;
@@ -120,7 +140,8 @@ function renderBatches(batches) {
 
   batchesList.innerHTML = batches
     .map((batch) => {
-      const proofText = batch.proof?.txId ? "Proof Linked" : "Proof Pending";
+      const proof = getProofData(batch.proof);
+      const proofText = getProofStatusLabel(proof.proofStatus);
 
       return `
         <article class="batch-card" data-batch-id="${batch.batchId}">
@@ -136,6 +157,7 @@ function renderBatches(batches) {
 
           <div class="meta-row"><strong>Coffee Type:</strong> ${batch.coffeeType}</div>
           <div class="meta-row"><strong>Created:</strong> ${formatDate(batch.createdAt)}</div>
+          <div class="meta-row"><strong>Network:</strong> ${proof.network}</div>
           <div class="meta-row"><strong>Event Count:</strong> ${batch.events.length}</div>
 
           <div class="card-actions">
@@ -182,8 +204,10 @@ function renderTrace(data) {
   traceEmpty.classList.add("hidden");
   traceResult.classList.remove("hidden");
 
-  const proofValue = data.proof?.txId || "Not added yet";
-  const proofApp = data.proof?.appId || "Not added yet";
+  const proof = getProofData(data.proof);
+  const proofTxId = proof.txId || "Not anchored yet";
+  const proofAppId = proof.appId || "Not anchored yet";
+  const proofStatus = getProofStatusLabel(proof.proofStatus);
 
   traceSummary.innerHTML = `
     <div class="trace-card">
@@ -203,12 +227,24 @@ function renderTrace(data) {
       <strong>${data.currentStatus}</strong>
     </div>
     <div class="trace-card">
-      <span>Proof TX ID</span>
-      <strong>${proofValue}</strong>
+      <span>Network</span>
+      <strong>${proof.network}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Proof Status</span>
+      <strong>${proofStatus}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Transaction ID</span>
+      <strong>${proofTxId}</strong>
     </div>
     <div class="trace-card">
       <span>App Reference</span>
-      <strong>${proofApp}</strong>
+      <strong>${proofAppId}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Proof Note</span>
+      <strong>${proof.note}</strong>
     </div>
   `;
 
