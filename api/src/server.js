@@ -24,6 +24,7 @@ function buildDefaultProof(proof = {}) {
     txId: null,
     appId: null,
     note: "Proof not anchored yet",
+    anchoredAt: null,
     ...proof
   };
 }
@@ -53,6 +54,18 @@ function readBatches() {
 
 function writeBatches(batches) {
   fs.writeFileSync(dataFilePath, JSON.stringify(batches, null, 2), "utf8");
+}
+
+function generateProofReference(batchId) {
+  const cleanBatchId = String(batchId).replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  const timestampPart = Date.now().toString(36).toUpperCase();
+  const randomPart = Math.random().toString(36).slice(2, 10).toUpperCase();
+
+  return {
+    txId: `ALGOTX-${cleanBatchId}-${timestampPart}-${randomPart}`,
+    appId: `ALGAPP-${timestampPart}`,
+    anchoredAt: new Date().toISOString()
+  };
 }
 
 app.get("/health", (req, res) => {
@@ -91,7 +104,6 @@ app.post("/batches", (req, res) => {
   }
 
   const batches = readBatches();
-
   const existingBatch = batches.find((item) => item.batchId === batchId);
 
   if (existingBatch) {
@@ -150,6 +162,45 @@ app.post("/batches/:batchId/events", (req, res) => {
 
   res.status(201).json({
     message: "Event added successfully",
+    batch: batches[batchIndex]
+  });
+});
+
+app.post("/batches/:batchId/anchor-proof", (req, res) => {
+  const batches = readBatches();
+  const batchIndex = batches.findIndex((item) => item.batchId === req.params.batchId);
+
+  if (batchIndex === -1) {
+    return res.status(404).json({
+      message: "Batch not found"
+    });
+  }
+
+  const currentBatch = batches[batchIndex];
+  const currentProof = buildDefaultProof(currentBatch.proof);
+
+  if (currentProof.proofStatus === "anchored" && currentProof.txId) {
+    return res.status(200).json({
+      message: "Proof already anchored",
+      batch: currentBatch
+    });
+  }
+
+  const proofReference = generateProofReference(currentBatch.batchId);
+
+  batches[batchIndex].proof = buildDefaultProof({
+    ...currentProof,
+    proofStatus: "anchored",
+    txId: proofReference.txId,
+    appId: proofReference.appId,
+    anchoredAt: proofReference.anchoredAt,
+    note: "Proof reference anchored through Hybrid DApp API stub"
+  });
+
+  writeBatches(batches);
+
+  res.status(200).json({
+    message: "Proof anchored successfully",
     batch: batches[batchIndex]
   });
 });

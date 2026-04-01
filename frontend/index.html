@@ -101,6 +101,7 @@
                   <li>Create a batch using the default values or your own</li>
                   <li>Click a batch card to trace it instantly</li>
                   <li>Use “Use in Event Form” to update a selected batch</li>
+                  <li>Use “Anchor Proof” after tracing a batch to create its proof reference</li>
                 </ul>
               </div>
 
@@ -257,8 +258,11 @@
               <div class="trace-controls">
                 <input type="text" id="traceBatchId" placeholder="Enter Batch ID" />
                 <button id="trace-batch-btn" type="button" class="primary-btn">Trace</button>
+                <button id="anchor-proof-btn" type="button" class="secondary-btn">Anchor Proof</button>
               </div>
             </div>
+
+            <div id="proof-message" class="message-box hidden"></div>
 
             <div id="trace-empty" class="empty-state">
               Choose a batch card or enter a batch ID to open the timeline.

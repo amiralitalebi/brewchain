@@ -5,9 +5,11 @@ const addEventForm = document.getElementById("add-event-form");
 const loadBatchesBtn = document.getElementById("load-batches-btn");
 const traceBatchBtn = document.getElementById("trace-batch-btn");
 const generateBatchIdBtn = document.getElementById("generate-batch-id-btn");
+const anchorProofBtn = document.getElementById("anchor-proof-btn");
 
 const createMessage = document.getElementById("create-message");
 const eventMessage = document.getElementById("event-message");
+const proofMessage = document.getElementById("proof-message");
 const batchesList = document.getElementById("batches-list");
 const traceEmpty = document.getElementById("trace-empty");
 const traceResult = document.getElementById("trace-result");
@@ -118,7 +120,8 @@ function getProofData(proof = {}) {
     proofStatus: proof.proofStatus || "pending",
     txId: proof.txId || null,
     appId: proof.appId || null,
-    note: proof.note || "Proof not anchored yet"
+    note: proof.note || "Proof not anchored yet",
+    anchoredAt: proof.anchoredAt || null
   };
 }
 
@@ -178,6 +181,7 @@ function renderBatches(batches) {
       event.stopPropagation();
       const batchId = button.dataset.batchId;
       traceBatchIdInput.value = batchId;
+      clearMessage(proofMessage);
       traceBatch(batchId);
     });
   });
@@ -195,6 +199,7 @@ function renderBatches(batches) {
       const batchId = card.dataset.batchId;
       eventBatchIdInput.value = batchId;
       traceBatchIdInput.value = batchId;
+      clearMessage(proofMessage);
       traceBatch(batchId);
     });
   });
@@ -208,6 +213,7 @@ function renderTrace(data) {
   const proofTxId = proof.txId || "Not anchored yet";
   const proofAppId = proof.appId || "Not anchored yet";
   const proofStatus = getProofStatusLabel(proof.proofStatus);
+  const anchoredAt = proof.anchoredAt ? formatDate(proof.anchoredAt) : "Not anchored yet";
 
   traceSummary.innerHTML = `
     <div class="trace-card">
@@ -241,6 +247,10 @@ function renderTrace(data) {
     <div class="trace-card">
       <span>App Reference</span>
       <strong>${proofAppId}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Anchored At</span>
+      <strong>${anchoredAt}</strong>
     </div>
     <div class="trace-card">
       <span>Proof Note</span>
@@ -309,6 +319,38 @@ async function traceBatch(batchId) {
   }
 }
 
+async function anchorProof(batchId) {
+  if (!batchId) {
+    showMessage(proofMessage, "Enter or select a batch ID first.", "error");
+    return;
+  }
+
+  clearMessage(proofMessage);
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/batches/${batchId}/anchor-proof`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to anchor proof");
+    }
+
+    showMessage(proofMessage, `Proof updated for batch ${batchId}.`, "success");
+
+    await loadBatches();
+    traceBatchIdInput.value = batchId;
+    await traceBatch(batchId);
+  } catch (error) {
+    showMessage(proofMessage, error.message, "error");
+  }
+}
+
 generateBatchIdBtn.addEventListener("click", () => {
   setDefaultBatchId();
 });
@@ -353,6 +395,7 @@ createBatchForm.addEventListener("submit", async (event) => {
 
     traceBatchIdInput.value = data.batchId;
     eventBatchIdInput.value = data.batchId;
+    clearMessage(proofMessage);
     await traceBatch(data.batchId);
   } catch (error) {
     showMessage(createMessage, error.message, "error");
@@ -391,6 +434,7 @@ addEventForm.addEventListener("submit", async (event) => {
     await loadBatches();
 
     traceBatchIdInput.value = batchId;
+    clearMessage(proofMessage);
     await traceBatch(batchId);
   } catch (error) {
     showMessage(eventMessage, error.message, "error");
@@ -403,7 +447,13 @@ loadBatchesBtn.addEventListener("click", async () => {
 
 traceBatchBtn.addEventListener("click", async () => {
   const batchId = traceBatchIdInput.value.trim();
+  clearMessage(proofMessage);
   await traceBatch(batchId);
+});
+
+anchorProofBtn.addEventListener("click", async () => {
+  const batchId = traceBatchIdInput.value.trim();
+  await anchorProof(batchId);
 });
 
 setDefaultBatchId();
