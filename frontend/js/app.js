@@ -222,6 +222,7 @@ async function renderTrace(data) {
   let blockchainState = {
     appId: proof.appId || "Not available",
     batchCount: "Not available",
+    eventAnchorCount: "Not available",
     creator: "Not available"
   };
 
@@ -233,6 +234,7 @@ async function renderTrace(data) {
       blockchainState = {
         appId: appStateData.appId ?? proof.appId ?? "Not available",
         batchCount: appStateData.globalState?.batch_count ?? "Not available",
+        eventAnchorCount: appStateData.globalState?.event_anchor_count ?? "Not available",
         creator: appStateData.globalState?.creator ?? "Not available"
       };
     }
@@ -288,6 +290,10 @@ async function renderTrace(data) {
     <div class="trace-card">
       <span>Contract Batch Count</span>
       <strong>${blockchainState.batchCount}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Contract Event Anchor Count</span>
+      <strong>${blockchainState.eventAnchorCount}</strong>
     </div>
     <div class="trace-card">
       <span>Contract Creator</span>
