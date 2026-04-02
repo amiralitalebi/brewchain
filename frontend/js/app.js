@@ -206,7 +206,7 @@ function renderBatches(batches) {
   });
 }
 
-function renderTrace(data) {
+async function renderTrace(data) {
   traceEmpty.classList.add("hidden");
   traceResult.classList.remove("hidden");
 
@@ -215,6 +215,27 @@ function renderTrace(data) {
   const proofAppId = proof.appId || "Not anchored yet";
   const proofStatus = getProofStatusLabel(proof.proofStatus);
   const anchoredAt = proof.anchoredAt ? formatDate(proof.anchoredAt) : "Not anchored yet";
+
+  let blockchainState = {
+    appId: proof.appId || "Not available",
+    batchCount: "Not available",
+    creator: "Not available"
+  };
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/blockchain/app-state`);
+    const appStateData = await response.json();
+
+    if (response.ok) {
+      blockchainState = {
+        appId: appStateData.appId ?? proof.appId ?? "Not available",
+        batchCount: appStateData.globalState?.batch_count ?? "Not available",
+        creator: appStateData.globalState?.creator ?? "Not available"
+      };
+    }
+  } catch (error) {
+    console.error("Failed to load blockchain app state", error);
+  }
 
   traceSummary.innerHTML = `
     <div class="trace-card">
@@ -256,6 +277,18 @@ function renderTrace(data) {
     <div class="trace-card">
       <span>Proof Note</span>
       <strong>${proof.note}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Contract App ID</span>
+      <strong>${blockchainState.appId}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Contract Batch Count</span>
+      <strong>${blockchainState.batchCount}</strong>
+    </div>
+    <div class="trace-card">
+      <span>Contract Creator</span>
+      <strong>${blockchainState.creator}</strong>
     </div>
   `;
 
@@ -312,7 +345,7 @@ async function traceBatch(batchId) {
       throw new Error(data.message || "Failed to trace batch");
     }
 
-    renderTrace(data);
+    await renderTrace(data);
   } catch (error) {
     traceEmpty.classList.remove("hidden");
     traceResult.classList.add("hidden");

@@ -94,8 +94,14 @@ async function sendAlgorandProofTransaction(batchId) {
   const signedTxn = txn.signTxn(account.sk);
   const response = await algodClient.sendRawTransaction(signedTxn).do();
   const confirmation = await algosdk.waitForConfirmation(algodClient, response.txid, 4);
+  const confirmedRound = Number(
+    confirmation["confirmed-round"] ??
+    confirmation.confirmedRound ??
+    0
+  );
 
-  if (confirmation["confirmed-round"] == null || confirmation["confirmed-round"] <= 0) {
+  if (confirmedRound <= 0) {
+    console.error("Unexpected confirmation object:", confirmation);
     throw new Error("Algorand app call was not confirmed");
   }
 
@@ -285,6 +291,7 @@ app.post("/batches/:batchId/anchor-proof", async (req, res) => {
       batch: batches[batchIndex]
     });
   } catch (error) {
+    console.error("Anchor proof error:", error);
     return res.status(500).json({
       message: "Failed to anchor proof on Algorand",
       error: error.message
