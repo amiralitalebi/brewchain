@@ -95,7 +95,8 @@ async function sendAlgorandProofTransaction(batchId) {
   const response = await algodClient.sendRawTransaction(signedTxn).do();
 
   return {
-    txId: response.txid
+    txId: response.txid,
+    appId: process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null
   };
 }
 
@@ -224,7 +225,7 @@ app.post("/batches/:batchId/anchor-proof", async (req, res) => {
       ...currentProof,
       proofStatus: "anchored",
       txId: txResult.txId,
-      appId: null,
+            appId: txResult.appId,
       anchoredAt: new Date().toISOString(),
       note: "Proof anchored on Algorand using note transaction"
     });

@@ -47,11 +47,11 @@
     ],
     "proof": {
       "network": "Algorand",
-      "proofStatus": "pending",
-      "txId": null,
+      "proofStatus": "anchored",
+      "txId": "UGVEGYNMRDQMXUMA73JXMNLRNYP3QS6VZ6QOZBC26GDN7HLMV2WA",
       "appId": null,
-      "note": "Algorand proof not added yet",
-      "anchoredAt": null
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-02T00:03:52.041Z"
     }
   },
   {
@@ -183,6 +183,46 @@
       "appId": null,
       "note": "Proof anchored on Algorand using note transaction",
       "anchoredAt": "2026-04-01T23:32:17.031Z"
+    }
+  },
+  {
+    "batchId": "BATCH-20260402-010610",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Harvested",
+    "createdAt": "2026-04-02T00:06:16.174Z",
+    "events": [
+      {
+        "eventId": "EVT-1775088386739",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-02T00:06:26.739Z"
+      }
+    ],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "QNV5Q76TFEN553SHM32ZGKOA7WUSEYV3G6WQYW2MYOXT75WZXQHA",
+      "appId": null,
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-02T00:06:33.774Z"
+    }
+  },
+  {
+    "batchId": "BATCH-20260402-010941",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Created",
+    "createdAt": "2026-04-02T00:09:43.459Z",
+    "events": [],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "6QL4ZKLLL6DRKBEYB63RBQAB3Z4FBFYICQWQZJO2RW3NGUO6BWWA",
+      "appId": 1004,
+      "note": "Proof anchored on Algorand using note transaction",
+      "anchoredAt": "2026-04-02T00:09:49.843Z"
     }
   }
 ]
