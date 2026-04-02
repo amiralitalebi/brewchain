@@ -62,41 +62,89 @@ async function sendAlgorandProofTransaction(batchId) {
   const algodPort = process.env.ALGOD_PORT;
   const algodToken = process.env.ALGOD_TOKEN;
   const algodMnemonic = process.env.ALGOD_MNEMONIC;
+  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
 
-  if (!algodServer || !algodPort || !algodToken || !algodMnemonic) {
+  if (!algodServer || !algodPort || !algodToken || !algodMnemonic || !algodAppId) {
     throw new Error("Algorand environment variables are missing");
   }
 
   const cleanMnemonic = algodMnemonic.trim().replace(/\s+/g, " ");
-  console.log("Algorand mnemonic word count:", cleanMnemonic.split(" ").length);
-
   const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
   const account = algosdk.mnemonicToSecretKey(cleanMnemonic);
-
   const suggestedParams = await algodClient.getTransactionParams().do();
 
   const noteObject = {
     batchId,
     anchoredAt: new Date().toISOString(),
-    source: "brewchain-hybrid-dapp"
+    source: "brewchain-hybrid-dapp",
+    action: "create_batch"
   };
 
   const note = new TextEncoder().encode(JSON.stringify(noteObject));
+  const appArgs = [new TextEncoder().encode("create_batch")];
 
-  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+  const txn = algosdk.makeApplicationNoOpTxnFromObject({
     sender: account.addr,
-    receiver: account.addr,
-    amount: 0,
+    appIndex: algodAppId,
+    appArgs,
     note,
     suggestedParams
   });
 
   const signedTxn = txn.signTxn(account.sk);
   const response = await algodClient.sendRawTransaction(signedTxn).do();
+  const confirmation = await algosdk.waitForConfirmation(algodClient, response.txid, 4);
+
+  if (confirmation["confirmed-round"] == null || confirmation["confirmed-round"] <= 0) {
+    throw new Error("Algorand app call was not confirmed");
+  }
 
   return {
     txId: response.txid,
-    appId: process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null
+    appId: algodAppId
+  };
+}
+
+async function readAlgorandAppState() {
+  const algodServer = process.env.ALGOD_SERVER;
+  const algodPort = process.env.ALGOD_PORT;
+  const algodToken = process.env.ALGOD_TOKEN;
+  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
+
+  if (!algodServer || !algodPort || !algodToken || !algodAppId) {
+    throw new Error("Algorand environment variables are missing");
+  }
+
+  const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
+  const appInfo = await algodClient.getApplicationByID(algodAppId).do();
+  const globalState =
+    appInfo?.params?.["global-state"] ||
+    appInfo?.params?.globalState ||
+    appInfo?.application?.params?.["global-state"] ||
+    appInfo?.application?.params?.globalState ||
+    [];
+
+  const decodedState = {};
+
+  for (const item of globalState) {
+    const key = Buffer.from(item.key, "base64").toString("utf8");
+
+    if (item.value.type === 1) {
+      const rawBytes = Buffer.from(item.value.bytes, "base64");
+
+      if (key === "creator") {
+        decodedState[key] = algosdk.encodeAddress(new Uint8Array(rawBytes));
+      } else {
+        decodedState[key] = rawBytes.toString("utf8");
+      }
+    } else {
+      decodedState[key] = Number(item.value.uint);
+    }
+  }
+
+  return {
+    appId: algodAppId,
+    globalState: decodedState
   };
 }
 
@@ -227,7 +275,7 @@ app.post("/batches/:batchId/anchor-proof", async (req, res) => {
       txId: txResult.txId,
             appId: txResult.appId,
       anchoredAt: new Date().toISOString(),
-      note: "Proof anchored on Algorand using note transaction"
+      note: "Proof anchored on Algorand using app call create_batch"
     });
 
     writeBatches(batches);
@@ -263,6 +311,23 @@ app.get("/batches/:batchId/trace", (req, res) => {
     proof: buildDefaultProof(batch.proof),
     timeline: batch.events
   });
+});
+
+
+app.get("/blockchain/app-state", async (req, res) => {
+  try {
+    const result = await readAlgorandAppState();
+
+    return res.json({
+      network: "Algorand",
+      ...result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to read Algorand app state",
+      error: error.message
+    });
+  }
 });
 
 app.listen(PORT, () => {
