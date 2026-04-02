@@ -26,6 +26,10 @@ const stageInput = document.getElementById("stage");
 const locationInput = document.getElementById("location");
 const descriptionInput = document.getElementById("description");
 
+const state = {
+  selectedBatchId: null
+};
+
 function showMessage(element, message, type = "success") {
   element.textContent = message;
   element.className = `message-box message-${type}`;
@@ -138,6 +142,15 @@ function getProofStatusLabel(proofStatus) {
   return labels[proofStatus] || "Proof Pending";
 }
 
+async function selectBatch(batchId) {
+  state.selectedBatchId = batchId;
+  eventBatchIdInput.value = batchId;
+  traceBatchIdInput.value = batchId;
+  clearMessage(proofMessage);
+  await loadBatches();
+  await traceBatch(batchId);
+}
+
 function renderBatches(batches) {
   if (!batches.length) {
     batchesList.innerHTML = `<div class="empty-state">No batches found yet. Register a batch to start building the trace history.</div>`;
@@ -148,9 +161,10 @@ function renderBatches(batches) {
     .map((batch) => {
       const proof = getProofData(batch.proof);
       const proofText = getProofStatusLabel(proof.proofStatus);
+      const selectedClass = batch.batchId === state.selectedBatchId ? " is-selected" : "";
 
       return `
-        <article class="batch-card" data-batch-id="${batch.batchId}" data-status="${batch.status.toLowerCase()}">
+        <article class="batch-card${selectedClass}" data-batch-id="${batch.batchId}" data-status="${batch.status.toLowerCase()}">
           <div class="batch-card-head">
             <h3>${batch.batchId}</h3>
             <span class="status-badge" data-status="${batch.status.toLowerCase()}">${getStatusTone(batch.status)}</span>
@@ -166,45 +180,15 @@ function renderBatches(batches) {
           <div class="meta-row"><strong>Created:</strong> ${formatDate(batch.createdAt)}</div>
           <div class="meta-row"><strong>Network:</strong> ${proof.network}</div>
           <div class="meta-row"><strong>Event Count:</strong> ${batch.events.length}</div>
-
-          <div class="card-actions">
-            <button type="button" class="card-action-btn trace-btn" data-batch-id="${batch.batchId}">
-              Trace
-            </button>
-            <button type="button" class="card-action-btn use-btn" data-batch-id="${batch.batchId}">
-              Use in Event Form
-            </button>
-          </div>
         </article>
       `;
     })
     .join("");
 
-  document.querySelectorAll(".trace-btn").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const batchId = button.dataset.batchId;
-      traceBatchIdInput.value = batchId;
-      clearMessage(proofMessage);
-      traceBatch(batchId);
-    });
-  });
-
-  document.querySelectorAll(".use-btn").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const batchId = button.dataset.batchId;
-      eventBatchIdInput.value = batchId;
-    });
-  });
-
   document.querySelectorAll(".batch-card").forEach((card) => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", async () => {
       const batchId = card.dataset.batchId;
-      eventBatchIdInput.value = batchId;
-      traceBatchIdInput.value = batchId;
-      clearMessage(proofMessage);
-      traceBatch(batchId);
+      await selectBatch(batchId);
     });
   });
 }
@@ -371,13 +355,13 @@ async function traceBatch(batchId) {
   } catch (error) {
     traceEmpty.classList.remove("hidden");
     traceResult.classList.add("hidden");
-    traceEmpty.textContent = error.message;
+    traceEmpty.innerHTML = `<div class="te-glyph">◎</div><p>${error.message}</p>`;
   }
 }
 
 async function anchorProof(batchId) {
   if (!batchId) {
-    showMessage(proofMessage, "Enter or select a batch ID first.", "error");
+    showMessage(proofMessage, "Select a batch first.", "error");
     return;
   }
 
@@ -447,12 +431,7 @@ createBatchForm.addEventListener("submit", async (event) => {
     document.getElementById("status").value = "Created";
     setDefaultBatchId();
 
-    await loadBatches();
-
-    traceBatchIdInput.value = data.batchId;
-    eventBatchIdInput.value = data.batchId;
-    clearMessage(proofMessage);
-    await traceBatch(data.batchId);
+    await selectBatch(data.batchId);
   } catch (error) {
     showMessage(createMessage, error.message, "error");
   }
@@ -487,11 +466,7 @@ addEventForm.addEventListener("submit", async (event) => {
 
     showMessage(eventMessage, `Event added to batch ${batchId} successfully.`, "success");
 
-    await loadBatches();
-
-    traceBatchIdInput.value = batchId;
-    clearMessage(proofMessage);
-    await traceBatch(batchId);
+    await selectBatch(batchId);
   } catch (error) {
     showMessage(eventMessage, error.message, "error");
   }
@@ -501,11 +476,13 @@ loadBatchesBtn.addEventListener("click", async () => {
   await loadBatches();
 });
 
-traceBatchBtn.addEventListener("click", async () => {
-  const batchId = traceBatchIdInput.value.trim();
-  clearMessage(proofMessage);
-  await traceBatch(batchId);
-});
+if (traceBatchBtn) {
+  traceBatchBtn.addEventListener("click", async () => {
+    const batchId = traceBatchIdInput.value.trim();
+    if (!batchId) return;
+    await selectBatch(batchId);
+  });
+}
 
 anchorProofBtn.addEventListener("click", async () => {
   const batchId = traceBatchIdInput.value.trim();

@@ -44,7 +44,7 @@
   --r-xl:22px;
 
   /* Motion */
-  --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -599,6 +599,18 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(200,136,44,0.12);
 }
 
+input[readonly] {
+  cursor: default;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-2);
+}
+
+input[readonly]:focus {
+  border-color: rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.03);
+  box-shadow: none;
+}
+
 select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A8468' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -721,7 +733,7 @@ button {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s var(--spring), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  transition: transform 0.2s var(--spring), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
   animation: fadeIn 0.35s var(--ease) both;
 }
 .batch-card::before {
@@ -729,7 +741,10 @@ button {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg, var(--gold), var(--gold-d));
+  background: linear-gradient(180deg,
+    var(--ctext, var(--gold)),
+    rgba(0,0,0,0)
+  );
   border-radius: 3px 0 0 3px;
   opacity: 0.7;
   transition: opacity 0.2s;
@@ -740,6 +755,55 @@ button {
   box-shadow: 0 12px 36px rgba(0,0,0,0.35);
 }
 .batch-card:hover::before { opacity: 1; }
+
+.batch-card.is-selected {
+  background: linear-gradient(160deg, rgba(244, 229, 204, 0.92), rgba(232, 212, 180, 0.88));
+  border-color: rgba(224, 168, 74, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(224, 168, 74, 0.22),
+    0 18px 40px rgba(0, 0, 0, 0.24);
+  transform: translateY(-2px);
+}
+
+.batch-card.is-selected::before {
+  opacity: 1;
+  background: linear-gradient(180deg, #96631A, rgba(0,0,0,0)); 
+}
+
+.batch-card.is-selected h3 {
+  color: #2f2114;
+}
+
+.batch-card.is-selected .meta-row {
+  color: #5c4630;
+}
+
+.batch-card.is-selected .meta-row strong {
+  color: #24180f;
+}
+
+
+
+.batch-card.is-selected .card-action-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #5c4630;
+}
+
+.batch-card.is-selected .card-action-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #24180f;
+}
+
+.batch-card.is-selected .status-badge,
+.batch-card.is-selected .origin-badge,
+.batch-card.is-selected .type-badge,
+.batch-card.is-selected .proof-badge {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #3d2b1f;
+  box-shadow: none;
+}
 
 .batch-card-head {
   display: flex;
@@ -792,9 +856,6 @@ button {
   transition: background 0.15s, color 0.15s;
 }
 .card-action-btn:hover { background: rgba(255,255,255,0.09); color: var(--text); }
-
-.trace-btn:hover { color: var(--gold-l) !important; border-color: rgba(200,136,44,0.25) !important; }
-.use-btn:hover   { color: var(--teal-l) !important;  border-color: rgba(15,214,170,0.2) !important; }
 
 /* ─── Semantic colour system ────────────────────────────────────
    Every element that carries [data-status], [data-origin],
@@ -961,14 +1022,6 @@ button {
   );
 }
 
-/* Batch card left-bar inherits status colour */
-.batch-card::before {
-  background: linear-gradient(180deg,
-    var(--ctext, var(--gold)),
-    rgba(0,0,0,0)
-  );
-}
-
 /* Badge base geometry — colours come from the semantic system above */
 .status-badge,
 .origin-badge,
@@ -985,6 +1038,7 @@ button {
   border: 1px solid transparent;
   white-space: nowrap;
 }
+
 .trace-controls {
   display: flex;
   align-items: center;
