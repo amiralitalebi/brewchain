@@ -3,10 +3,21 @@ from pyteal import *
 def approval_program():
     on_create = Seq(
         App.globalPut(Bytes("creator"), Txn.sender()),
+        App.globalPut(Bytes("batch_count"), Int(0)),
         Return(Int(1))
     )
 
-    handle_noop = Return(Int(1))
+    create_batch = Seq(
+        Assert(Txn.application_args.length() > Int(0)),
+        Assert(Txn.application_args[0] == Bytes("create_batch")),
+        App.globalPut(Bytes("batch_count"), App.globalGet(Bytes("batch_count")) + Int(1)),
+        Return(Int(1))
+    )
+
+    handle_noop = Cond(
+        [Txn.application_args.length() > Int(0), create_batch],
+        [Int(1), Return(Int(1))]
+    )
 
     return Cond(
         [Txn.application_id() == Int(0), on_create],
