@@ -10,7 +10,7 @@ Brewchain is a hybrid DApp for coffee batch traceability. It stores detailed bat
 
 ## Objective
 
-The project is designed to provide a simple and clear implementation of a hybrid DApp for supply chain tracking. The focus is on batch creation, event recording, traceability, and blockchain proof anchoring.
+The project is designed to provide a simple and clear implementation of a hybrid DApp for supply chain tracking. The focus is on batch creation, event recording, traceability, batch proof anchoring, event proof anchoring, and visible smart contract state.
 
 ## Scope
 
@@ -20,10 +20,14 @@ Version 1 includes:
 - view one batch
 - add supply chain event
 - trace batch timeline
-- anchor proof on Algorand
-- show proof transaction ID
+- anchor batch proof on Algorand
+- anchor event proof on Algorand
+- show batch proof transaction ID
+- show event proof transaction ID
 - show app reference
 - view live blockchain app state
+- show contract batch count
+- show contract event anchor count
 
 ## Out of Scope
 
@@ -46,10 +50,10 @@ The project structure is:
 - `docs/`
 
 ### Frontend
-A multi-page web interface for creating batches, viewing batches, adding events, tracing timelines, and viewing proof information.
+A multi-page web interface for creating batches, viewing batches, adding events, tracing timelines, and viewing batch proof and event proof information.
 
 ### API
-A Node.js and Express backend for batch handling, event handling, trace responses, proof anchoring, and blockchain state lookup.
+A Node.js and Express backend for batch handling, event handling, trace responses, batch proof anchoring, event proof anchoring, and blockchain state lookup.
 
 ### Gateway
 An Express gateway that forwards frontend requests to the API.
@@ -60,17 +64,21 @@ A small Algorand smart contract used for proof anchoring support.
 Current contract behaviour:
 - stores `creator`
 - stores `batch_count`
+- stores `event_anchor_count`
 - accepts `create_batch` as a NoOp app call argument
-- increments `batch_count` when called
+- accepts `anchor_event` as a NoOp app call argument
+- increments `batch_count` when `create_batch` is called
+- increments `event_anchor_count` when `anchor_event` is called
 
 ### Storage Model
 - off-chain batch metadata storage
-- on-chain proof anchoring on Algorand
+- on-chain batch proof anchoring on Algorand
+- on-chain event proof anchoring on Algorand
 
 ## Design Approach
 
-The design keeps the system small and practical. It focuses on a clear hybrid DApp structure, straightforward traceability features, and simple blockchain integration.
+The design keeps the system small and practical. It focuses on a clear hybrid DApp structure, straightforward traceability features, and simple but visible blockchain integration.
 
 ## Limitations
 
-Version 1 is intentionally minimal and does not aim to cover all real-world supply chain requirements. It provides a working prototype focused on the core functionality.
+Version 1 is intentionally minimal and does not aim to cover all real-world supply chain requirements. It provides a working prototype focused on the core functionality, not a fully decentralised enterprise supply chain platform.

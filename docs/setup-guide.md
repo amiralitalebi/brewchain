@@ -19,6 +19,8 @@ Make sure the following are installed:
 - Git
 - Node.js and npm
 - Python 3
+- Docker
+- AlgoKit
 - Algorand LocalNet tools used by the project
 
 ## Clone the Repository
@@ -49,10 +51,20 @@ api/.env
 Add your local configuration for:
 
 API port
-Algorand node address
+Algorand server or address
 Algorand token
 Algorand mnemonic
 deployed app ID
+
+Typical fields include:
+
+PORT
+ALGOD_SERVER
+ALGOD_PORT
+ALGOD_ADDRESS
+ALGOD_TOKEN
+ALGOD_MNEMONIC
+ALGOD_APP_ID
 Gateway
 
 Create:
@@ -108,7 +120,8 @@ view all batches
 open one batch
 add a supply chain event
 open the trace view
-anchor proof on Algorand
+anchor batch proof on Algorand
+anchor event proof on Algorand
 confirm proof details and app state
 API Checks
 
@@ -116,9 +129,13 @@ Useful checks:
 
 GET /health
 GET /batches
+GET /batches/:id
+GET /batches/:id/trace
 GET /blockchain/status
 GET /blockchain/app-state
 Notes
 batch data is stored off-chain in api/data/batches.json
 proof is anchored on Algorand
+both batch proof and event proof are supported
 the smart contract is intentionally small for version 1
+the current deployed app ID in the latest project state is 1022

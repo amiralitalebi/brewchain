@@ -7,6 +7,8 @@ The Brewchain API provides endpoints for:
 - batch creation and retrieval
 - supply chain event creation
 - batch trace viewing
+- batch proof anchoring
+- event proof anchoring
 - blockchain status lookup
 - live smart contract state lookup
 
@@ -18,7 +20,8 @@ The API is responsible for:
 - storing batch metadata off-chain
 - managing batch events
 - preparing trace responses
-- anchoring proof through Algorand integration
+- anchoring batch proof through Algorand integration
+- anchoring event proof through Algorand integration
 - returning blockchain-related status and app state data
 
 ## Routes
@@ -64,7 +67,22 @@ Returns the trace timeline and proof-related information for a batch.
 
 **Purpose:**
 - follow the batch journey
-- view proof details linked to the batch
+- view batch proof details
+- view event-level proof details linked to the batch timeline
+
+#### `POST /batches/:id/anchor`
+Anchors batch proof on Algorand.
+
+**Purpose:**
+- create an on-chain proof record for a batch
+- return transaction and app reference details
+
+#### `POST /batches/:id/events/:eventId/anchor`
+Anchors event proof on Algorand.
+
+**Purpose:**
+- create an on-chain proof record for a specific batch event
+- return transaction and app reference details
 
 ---
 
@@ -85,6 +103,7 @@ Returns live smart contract application state from Algorand.
 **Expected live fields include:**
 - `appId`
 - `globalState.batch_count`
+- `globalState.event_anchor_count`
 - `globalState.creator`
 
 ## Notes
@@ -92,4 +111,5 @@ Returns live smart contract application state from Algorand.
 - Detailed batch data is stored off-chain in `api/data/batches.json`
 - Blockchain proof is anchored on Algorand
 - The frontend accesses the API through the gateway
-- The smart contract is intentionally small and only supports the current version 1 proof flow
+- The smart contract is intentionally small and supports the current version 1 proof flow
+- Batch proof and event proof are both visible in the frontend trace experience

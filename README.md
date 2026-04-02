@@ -13,9 +13,13 @@ Brewchain is a hybrid DApp for tracking coffee batches through a supply chain. I
 - view one batch
 - add supply chain event
 - trace batch timeline
-- anchor proof on Algorand
-- show on-chain proof reference
+- anchor batch proof on Algorand
+- anchor event proof on Algorand
+- show batch-level on-chain proof reference
+- show event-level on-chain proof reference
 - view live blockchain app state
+- show contract batch count
+- show contract event anchor count
 
 ## Technology Stack
 
@@ -29,10 +33,10 @@ Brewchain is a hybrid DApp for tracking coffee batches through a supply chain. I
 ## Architecture
 
 ### Frontend
-The frontend provides pages for creating batches, viewing batches, adding events, tracing timelines, and viewing proof details.
+The frontend provides pages for creating batches, viewing batches, adding events, tracing timelines, and viewing batch proof and event proof details.
 
 ### API
-The API manages batch creation, retrieval, event handling, trace responses, proof anchoring, and blockchain state lookup.
+The API manages batch creation, retrieval, event handling, trace responses, batch proof anchoring, event proof anchoring, and blockchain state lookup.
 
 ### Gateway
 The gateway forwards frontend requests to the API.
@@ -42,7 +46,7 @@ Batch metadata is stored off-chain in:
 
 `api/data/batches.json`
 
-Proof is anchored on Algorand using an application call.
+Proof is anchored on Algorand using application calls.
 
 ## Smart Contract
 
@@ -53,28 +57,46 @@ Contract file:
 Current behaviour:
 - stores `creator` in global state
 - stores `batch_count` in global state
+- stores `event_anchor_count` in global state
 - accepts NoOp application call with argument `create_batch`
-- increments `batch_count` when called
+- accepts NoOp application call with argument `anchor_event`
+- increments `batch_count` when `create_batch` is called
+- increments `event_anchor_count` when `anchor_event` is called
 
 ## Blockchain Configuration
 
 Current deployed application ID:
 
-`1011`
+`1022`
 
 ## Proof Anchoring
 
-Proof anchoring uses:
+### Batch proof anchoring
+Batch proof anchoring uses:
 - Algorand application call
 - NoOp call
 - app argument: `create_batch`
 - JSON note containing batch metadata
 
-The JSON note includes:
+The batch proof JSON note includes:
 - `batchId`
 - `anchoredAt`
 - `source`
 - `action`
+
+### Event proof anchoring
+Event proof anchoring uses:
+- Algorand application call
+- NoOp call
+- app argument: `anchor_event`
+- JSON note containing event metadata
+
+The event proof JSON note includes:
+- `batchId`
+- `eventId`
+- `anchoredAt`
+- `action`
+- `source`
 
 ## API Routes
 
@@ -104,15 +126,11 @@ git clone https://github.com/amiralitalebi/brewchain.git
 cd brewchain
 git checkout brewchain-algorand
 Install dependencies
-
-API:
-
+API
 cd api
 npm install
 cd ..
-
-Gateway:
-
+Gateway
 cd gateway
 npm install
 cd ..
@@ -131,9 +149,9 @@ Stop the system
 ./stop-all.sh
 Frontend
 
-The frontend is served from frontend/ using:
+The frontend can be served from frontend/ using:
 
 python3 -m http.server 8080
 Notes
 
-Version 1 is intentionally kept simple. It focuses on a clear hybrid DApp structure, batch traceability, and blockchain proof anchoring without unnecessary extra features.
+Version 1 is intentionally kept simple. It focuses on a clear hybrid DApp structure, batch traceability, batch proof anchoring, event proof anchoring, and visible smart contract state without unnecessary extra features.
