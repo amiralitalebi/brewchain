@@ -6,3 +6,6 @@ coverage/
 .DS_Store
 Thumbs.db
 .vscode/
+api/api.log
+gateway/gateway.log
+frontend/frontend.log
