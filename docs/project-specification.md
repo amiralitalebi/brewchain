@@ -1,98 +1,61 @@
 # Project Specification
 
-## Project title
+## Project Title
 
 Coffee Supply Chain Traceability Hybrid DApp using Algorand
 
-## Project summary
+## Summary
 
-Brewchain is a simple hybrid DApp developed for CN6035 coursework.  
-The project focuses on coffee batch traceability using a clear and coursework-friendly architecture.
+Brewchain is a hybrid DApp for coffee batch traceability. It stores detailed batch data off-chain and anchors proof records on Algorand.
 
-The system stores detailed batch data off-chain and anchors proof records on Algorand.  
-This allows the project to demonstrate real blockchain interaction without making the whole application unnecessarily complex.
+## Objective
 
-## Chosen approach
+The project is designed to provide a simple and clear implementation of a hybrid DApp for supply chain tracking. The focus is on batch creation, event recording, traceability, and blockchain proof anchoring.
 
-The chosen approach was to rebuild the original project into a simpler Hybrid DApp aligned with CN6035 module expectations.
+## Scope
 
-The project was designed to:
-- use a simple frontend
-- use a Node.js and Express backend
-- include an API gateway
-- use Algorand for blockchain proof anchoring
-- keep the smart contract very small
-- prioritise clarity, functionality, and ease of demonstration
-
-## Version 1 scope
-
-Version 1 supports:
+Version 1 includes:
 - create batch
 - view all batches
 - view one batch
 - add supply chain event
-- trace a batch timeline
+- trace batch timeline
 - anchor proof on Algorand
 - show proof transaction ID
 - show app reference
 - view live blockchain app state
 
-## Core functionality
+## Out of Scope
 
-The system allows a user to:
-- create a coffee batch
-- record supply chain events for the batch
-- retrieve stored batch information
-- view the timeline of a batch
-- anchor proof from the frontend
-- inspect stored proof information
-- view current smart contract state from Algorand
-
-## Out of scope
-
-The following features are intentionally out of scope for version 1:
-- complex authentication
-- advanced role system
+The following are excluded from version 1:
+- authentication
+- advanced role management
 - NFT or token marketplace features
 - QR code integration
 - maps
-- analytics extras
+- analytics features
 - full on-chain batch storage
-- anything not needed for a simple version 1 coursework build
 
 ## Architecture
 
-The project uses the following structure:
+The project structure is:
 - `frontend/`
 - `api/`
 - `gateway/`
 - `smart-contract/`
 - `docs/`
 
-## Architecture explanation
-
 ### Frontend
-A simple multi-page web interface for:
-- creating batches
-- viewing batches
-- adding supply chain events
-- tracing a batch
-- viewing proof and blockchain state
+A multi-page web interface for creating batches, viewing batches, adding events, tracing timelines, and viewing proof information.
 
 ### API
-A Node.js and Express backend that handles:
-- batch creation
-- batch retrieval
-- event creation
-- trace generation
-- proof anchoring requests
-- blockchain status and app state lookup
+A Node.js and Express backend for batch handling, event handling, trace responses, proof anchoring, and blockchain state lookup.
 
 ### Gateway
-A lightweight Express gateway that forwards frontend requests to the API.
+An Express gateway that forwards frontend requests to the API.
 
-### Smart contract
-A very small Algorand smart contract used for proof anchoring support.
+### Smart Contract
+A small Algorand smart contract used for proof anchoring support.
 
 Current contract behaviour:
 - stores `creator`
@@ -100,23 +63,14 @@ Current contract behaviour:
 - accepts `create_batch` as a NoOp app call argument
 - increments `batch_count` when called
 
-### Storage model
-- off-chain batch metadata is stored locally
-- on-chain proof is anchored on Algorand
+### Storage Model
+- off-chain batch metadata storage
+- on-chain proof anchoring on Algorand
 
-## Design intention
+## Design Approach
 
-The design intentionally keeps the system simple and suitable for coursework assessment.
+The design keeps the system small and practical. It focuses on a clear hybrid DApp structure, straightforward traceability features, and simple blockchain integration.
 
-The main goal is not to build a large production platform, but to demonstrate:
-- hybrid DApp architecture
-- frontend and backend integration
-- blockchain interaction
-- use of a smart contract
-- a clear and testable supply chain traceability flow
+## Limitations
 
-## Version 1 limitations
-
-Version 1 is intentionally limited to keep the project focused and manageable.  
-It does not attempt to solve every real-world supply chain problem.  
-Instead, it provides a small but working prototype that demonstrates the main ideas clearly.
+Version 1 is intentionally minimal and does not aim to cover all real-world supply chain requirements. It provides a working prototype focused on the core functionality.
