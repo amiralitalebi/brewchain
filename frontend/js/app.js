@@ -1,4 +1,7 @@
-const API_BASE_URL = `${window.location.protocol}//${window.location.hostname.replace("-8080", "-3000")}/api`;
+const API_BASE_URL =
+  window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+    ? "http://127.0.0.1:3001"
+    : `${window.location.protocol}//${window.location.hostname.replace("-8080", "-3000")}/api`;
 
 const createBatchForm = document.getElementById("create-batch-form");
 const addEventForm = document.getElementById("add-event-form");
@@ -298,8 +301,20 @@ async function renderTrace(data) {
   }
 
   timeline.innerHTML = data.timeline
-    .map(
-      (event) => `
+    .map((event) => {
+      const eventProof = event.blockchainProof;
+      const proofHtml = eventProof
+        ? `
+          <div class="event-proof">
+            <p><strong>Blockchain Proof:</strong></p>
+            <p><strong>Tx ID:</strong> ${eventProof.txId ?? "N/A"}</p>
+            <p><strong>App ID:</strong> ${eventProof.appId ?? "N/A"}</p>
+            <p><strong>Method:</strong> ${eventProof.method ?? "N/A"}</p>
+          </div>
+        `
+        : "";
+
+      return `
         <article class="timeline-item" data-status="${event.stage.toLowerCase()}">
           <div class="timeline-item-inner">
             <div class="timeline-topline">
@@ -310,10 +325,11 @@ async function renderTrace(data) {
             <p><strong>Description:</strong> ${event.description}</p>
             <p><strong>Timestamp:</strong> ${formatDate(event.timestamp)}</p>
             <p><strong>Event ID:</strong> ${event.eventId}</p>
+            ${proofHtml}
           </div>
         </article>
-      `
-    )
+      `;
+    })
     .join("");
 }
 

@@ -111,6 +111,62 @@ async function sendAlgorandProofTransaction(batchId) {
   };
 }
 
+async function sendAlgorandEventAnchor(batchId, event) {
+  const algodServer = process.env.ALGOD_SERVER;
+  const algodPort = process.env.ALGOD_PORT;
+  const algodToken = process.env.ALGOD_TOKEN;
+  const algodMnemonic = process.env.ALGOD_MNEMONIC;
+  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
+
+  if (!algodServer || !algodPort || !algodToken || !algodMnemonic || !algodAppId) {
+    throw new Error("Algorand environment variables are missing");
+  }
+
+  const cleanMnemonic = algodMnemonic.trim().replace(/\s+/g, " ");
+  const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
+  const account = algosdk.mnemonicToSecretKey(cleanMnemonic);
+  const suggestedParams = await algodClient.getTransactionParams().do();
+
+  const noteObject = {
+    batchId,
+    eventId: event.eventId,
+    anchoredAt: new Date().toISOString(),
+    source: "brewchain-hybrid-dapp",
+    action: event.stage,
+    location: event.location
+  };
+
+  const note = new TextEncoder().encode(JSON.stringify(noteObject));
+  const appArgs = [new TextEncoder().encode("anchor_event")];
+
+  const txn = algosdk.makeApplicationNoOpTxnFromObject({
+    sender: account.addr,
+    appIndex: algodAppId,
+    appArgs,
+    note,
+    suggestedParams
+  });
+
+  const signedTxn = txn.signTxn(account.sk);
+  const response = await algodClient.sendRawTransaction(signedTxn).do();
+  const confirmation = await algosdk.waitForConfirmation(algodClient, response.txid, 4);
+  const confirmedRound = Number(
+    confirmation["confirmed-round"] ??
+    confirmation.confirmedRound ??
+    0
+  );
+
+  if (confirmedRound <= 0) {
+    console.error("Unexpected confirmation object:", confirmation);
+    throw new Error("Algorand event anchor app call was not confirmed");
+  }
+
+  return {
+    txId: response.txid,
+    appId: algodAppId
+  };
+}
+
 async function readAlgorandAppState() {
   const algodServer = process.env.ALGOD_SERVER;
   const algodPort = process.env.ALGOD_PORT;
@@ -214,7 +270,7 @@ app.post("/batches", (req, res) => {
   res.status(201).json(newBatch);
 });
 
-app.post("/batches/:batchId/events", (req, res) => {
+app.post("/batches/:batchId/events", async (req, res) => {
   const { stage, location, description } = req.body;
 
   if (!stage || !location || !description) {
@@ -243,6 +299,24 @@ app.post("/batches/:batchId/events", (req, res) => {
   batches[batchIndex].events.push(newEvent);
   batches[batchIndex].status = stage;
   batches[batchIndex].proof = buildDefaultProof(batches[batchIndex].proof);
+
+  try {
+    const eventAnchor = await sendAlgorandEventAnchor(req.params.batchId, newEvent);
+
+    newEvent.blockchainProof = {
+      txId: eventAnchor.txId,
+      appId: eventAnchor.appId,
+      method: "anchor_event"
+    };
+  } catch (error) {
+    console.error("Event anchor error:", error);
+    newEvent.blockchainProof = {
+      txId: null,
+      appId: process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null,
+      method: "anchor_event",
+      error: error.message
+    };
+  }
 
   writeBatches(batches);
 
@@ -279,7 +353,7 @@ app.post("/batches/:batchId/anchor-proof", async (req, res) => {
       ...currentProof,
       proofStatus: "anchored",
       txId: txResult.txId,
-            appId: txResult.appId,
+      appId: txResult.appId,
       anchoredAt: new Date().toISOString(),
       note: "Proof anchored on Algorand using app call create_batch"
     });
@@ -309,6 +383,15 @@ app.get("/batches/:batchId/trace", (req, res) => {
     });
   }
 
+  const timeline = (Array.isArray(batch.events) ? batch.events : []).map((event) => ({
+    eventId: event.eventId,
+    stage: event.stage,
+    location: event.location,
+    description: event.description,
+    timestamp: event.timestamp,
+    blockchainProof: event.blockchainProof || null
+  }));
+
   res.json({
     batchId: batch.batchId,
     coffeeType: batch.coffeeType,
@@ -316,10 +399,9 @@ app.get("/batches/:batchId/trace", (req, res) => {
     currentStatus: batch.status,
     createdAt: batch.createdAt,
     proof: buildDefaultProof(batch.proof),
-    timeline: batch.events
+    timeline
   });
 });
-
 
 app.get("/blockchain/app-state", async (req, res) => {
   try {

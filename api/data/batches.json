@@ -1,1 +1,251 @@
-[]
+[
+  {
+    "batchId": "BATCH-20260402-023330",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Delivered",
+    "createdAt": "2026-04-02T01:33:35.997Z",
+    "updatedAt": "2026-04-02T01:33:35.997Z",
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "SYOP62M6NPXZQQTQVTRH4I4FKZ2TRZIB4Z6U75XGF6O4P4VPE5GQ",
+      "appId": 1011,
+      "note": "Proof anchored on Algorand using app call create_batch",
+      "anchoredAt": "2026-04-02T01:34:00.175Z"
+    },
+    "events": [
+      {
+        "eventId": "EVT-1775093620409",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-02T01:33:40.409Z",
+        "blockchainProof": null
+      },
+      {
+        "eventId": "EVT-1775093623036",
+        "stage": "Processed",
+        "location": "Processing Station",
+        "description": "Beans processed and prepared for the next supply chain stage",
+        "timestamp": "2026-04-02T01:33:43.036Z",
+        "blockchainProof": null
+      },
+      {
+        "eventId": "EVT-1775093625724",
+        "stage": "Roasted",
+        "location": "London Roastery",
+        "description": "Beans roasted and prepared for packaging",
+        "timestamp": "2026-04-02T01:33:45.724Z",
+        "blockchainProof": null
+      },
+      {
+        "eventId": "EVT-1775093627608",
+        "stage": "Packaged",
+        "location": "London Packaging Hub",
+        "description": "Batch packed and labelled for shipment",
+        "timestamp": "2026-04-02T01:33:47.608Z",
+        "blockchainProof": null
+      },
+      {
+        "eventId": "EVT-1775093629590",
+        "stage": "Shipped",
+        "location": "Distribution Centre",
+        "description": "Batch dispatched to the next destination",
+        "timestamp": "2026-04-02T01:33:49.590Z",
+        "blockchainProof": null
+      },
+      {
+        "eventId": "EVT-1775093631509",
+        "stage": "Delivered",
+        "location": "Retail Destination",
+        "description": "Batch delivered successfully to final destination",
+        "timestamp": "2026-04-02T01:33:51.509Z",
+        "blockchainProof": null
+      }
+    ]
+  },
+  {
+    "batchId": "BATCH-20260402-142724",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Harvested",
+    "createdAt": "2026-04-02T13:27:25.407Z",
+    "updatedAt": "2026-04-02T13:27:25.407Z",
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "EAAU2YWYNO3PGRE2ILB3BLTGKQRHD7JTWJAH7CID3RRDJZMPUXBA",
+      "appId": 1011,
+      "note": "Proof anchored on Algorand using app call create_batch",
+      "anchoredAt": "2026-04-02T13:27:46.072Z"
+    },
+    "events": [
+      {
+        "eventId": "EVT-1775136506934",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-02T13:28:26.934Z",
+        "blockchainProof": null
+      }
+    ]
+  },
+  {
+    "batchId": "BATCH-20260402-144204",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Shipped",
+    "createdAt": "2026-04-02T13:42:05.322Z",
+    "updatedAt": "2026-04-02T13:56:36.262Z",
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "EYFDVH3EB73BBEXVAYRWDEO4VLGU5BMNWGA6U5BRWIZRRNTNGTHQ",
+      "appId": 1022,
+      "note": "Proof anchored on Algorand using app call create_batch",
+      "anchoredAt": "2026-04-02T13:42:27.826Z"
+    },
+    "events": [
+      {
+        "eventId": "EVT-1775137339098",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-02T13:42:19.098Z",
+        "blockchainProof": {
+          "txId": "HP4VLGJVMV7GYX2NS3TO3W22SLPNDOXO2KMTFLAGFLNTZ7VV566Q",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775137651225",
+        "stage": "Processed",
+        "location": "Processing Station",
+        "description": "Beans processed and prepared for the next supply chain stage",
+        "timestamp": "2026-04-02T13:47:31.225Z",
+        "blockchainProof": {
+          "txId": "4UOGLF2XDZASAKPBJGIRSCRUDYSOX6X7KAS7ZF3467GH24BYD5DQ",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775137989818",
+        "stage": "Packaged",
+        "location": "London Packaging Hub",
+        "description": "Batch packed and labelled for shipment",
+        "timestamp": "2026-04-02T13:53:09.818Z",
+        "blockchainProof": {
+          "txId": "57DSPFA33EDCSKOCVIJ37E53NEOSJA2V3M4A37ISVVCMLFGR3ZYA",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138196261",
+        "stage": "Shipped",
+        "location": "Distribution Centre",
+        "description": "Batch dispatched to the next destination",
+        "timestamp": "2026-04-02T13:56:36.261Z",
+        "blockchainProof": {
+          "txId": null,
+          "appId": 1022,
+          "method": "anchor_event",
+          "anchoredAt": "2026-04-02T13:56:36.262Z",
+          "error": "ALGOD_ADDRESS or ALGOD_TOKEN is missing in api/.env"
+        }
+      }
+    ]
+  },
+  {
+    "batchId": "BATCH-20260402-150221",
+    "coffeeType": "Arabica",
+    "origin": "Colombia",
+    "status": "Delivered",
+    "createdAt": "2026-04-02T14:02:21.531Z",
+    "events": [
+      {
+        "eventId": "EVT-1775138566338",
+        "stage": "Harvested",
+        "location": "Coffee Farm",
+        "description": "Coffee cherries harvested and prepared for primary processing",
+        "timestamp": "2026-04-02T14:02:46.338Z",
+        "blockchainProof": {
+          "txId": "3ZFZNSRY7GZQ2XWJYL5IRB52GFXJ4WIWDBAP7GVU2FLCK4KIAXHA",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138601548",
+        "stage": "Processed",
+        "location": "Processing Station",
+        "description": "Beans processed and prepared for the next supply chain stage",
+        "timestamp": "2026-04-02T14:03:21.548Z",
+        "blockchainProof": {
+          "txId": "F4SIHRERQ2ED76LCVMUQUULIS7M66PENKAI22HFDLUSAJX2V3HLQ",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138605672",
+        "stage": "Roasted",
+        "location": "London Roastery",
+        "description": "Beans roasted and prepared for packaging",
+        "timestamp": "2026-04-02T14:03:25.672Z",
+        "blockchainProof": {
+          "txId": "ZYLU2GWGIL4B33U5NGGLECBMN46XO3M65HUUEG2KHSFCPEJVLFXQ",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138607714",
+        "stage": "Packaged",
+        "location": "London Packaging Hub",
+        "description": "Batch packed and labelled for shipment",
+        "timestamp": "2026-04-02T14:03:27.714Z",
+        "blockchainProof": {
+          "txId": "ZTPKFF6RB3BRCVPTFEX46WFZGCTXRATN5A72PUHCIOKQWUH2PBSQ",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138609519",
+        "stage": "Shipped",
+        "location": "Distribution Centre",
+        "description": "Batch dispatched to the next destination",
+        "timestamp": "2026-04-02T14:03:29.519Z",
+        "blockchainProof": {
+          "txId": "QY3LKH63SJRA7KJCLHNGX4WFTZ6E5SUQ3R2LZA3J3UBD6P36RYHQ",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      },
+      {
+        "eventId": "EVT-1775138611398",
+        "stage": "Delivered",
+        "location": "Retail Destination",
+        "description": "Batch delivered successfully to final destination",
+        "timestamp": "2026-04-02T14:03:31.398Z",
+        "blockchainProof": {
+          "txId": "NJZ53PIHDYTYOFMDCJCR5PLCUB7KFMDMEBBEZEDLSYYGAUPYABCA",
+          "appId": 1022,
+          "method": "anchor_event"
+        }
+      }
+    ],
+    "proof": {
+      "network": "Algorand",
+      "proofStatus": "anchored",
+      "txId": "5P7CIRVTU4HY5S6ZUPQTBWSNFLAPFKWZ47DIXRFBCOI36NVYRWDA",
+      "appId": 1022,
+      "note": "Proof anchored on Algorand using app call create_batch",
+      "anchoredAt": "2026-04-02T14:02:31.639Z"
+    }
+  }
+]

@@ -26,7 +26,7 @@ clear_result = client.compile(clear_teal)
 approval_program = base64.b64decode(approval_result["result"])
 clear_program = base64.b64decode(clear_result["result"])
 
-global_schema = transaction.StateSchema(num_uints=1, num_byte_slices=1)
+global_schema = transaction.StateSchema(num_uints=2, num_byte_slices=1)
 local_schema = transaction.StateSchema(num_uints=0, num_byte_slices=0)
 
 params = client.suggested_params()
