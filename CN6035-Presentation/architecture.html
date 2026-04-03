@@ -1,127 +1,426 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brewchain Architecture</title>
-</head>
-<body style="margin:0; padding:0; background:#0b0806; display:flex; justify-content:center; align-items:center; min-height:100vh; overflow:hidden;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brewchain Architecture</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background: #0b0806;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    "
+  >
+    <div
+      style="
+        width: 1280px;
+        height: 720px;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 40px 44px;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(
+            circle at 12% 8%,
+            rgba(214, 143, 74, 0.16) 0%,
+            rgba(214, 143, 74, 0.04) 18%,
+            transparent 34%
+          ),
+          radial-gradient(
+            circle at 88% 18%,
+            rgba(104, 170, 255, 0.1) 0%,
+            rgba(104, 170, 255, 0.03) 16%,
+            transparent 30%
+          ),
+          linear-gradient(135deg, #22160f 0%, #130d09 52%, #0b0806 100%);
+        color: #f7eadf;
+      "
+    >
+      <!-- header -->
+      <div style="height: 96px; box-sizing: border-box">
+        <div
+          style="
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #d7ae87;
+            font-size: 14px;
+            letter-spacing: 1px;
+            font-weight: bold;
+          "
+        >
+          BREWCHAIN • HYBRID DAPP
+        </div>
 
-  <div style="width:1280px; height:720px; position:relative; overflow:hidden; box-sizing:border-box; padding:40px 44px; font-family:Arial, Helvetica, sans-serif; background:
-  radial-gradient(circle at 12% 8%, rgba(214,143,74,0.16) 0%, rgba(214,143,74,0.04) 18%, transparent 34%),
-  radial-gradient(circle at 88% 18%, rgba(104,170,255,0.10) 0%, rgba(104,170,255,0.03) 16%, transparent 30%),
-  linear-gradient(135deg, #22160f 0%, #130d09 52%, #0b0806 100%); color:#f7eadf;">
-
-    <!-- header -->
-    <div style="height:96px; box-sizing:border-box;">
-      <div style="display:inline-flex; align-items:center; padding:8px 16px; border:1px solid rgba(255,255,255,0.14); border-radius:999px; background:rgba(255,255,255,0.04); color:#d7ae87; font-size:14px; letter-spacing:1px; font-weight:bold;">
-        BREWCHAIN • HYBRID DAPP
+        <div
+          style="
+            margin-top: 18px;
+            font-size: 42px;
+            line-height: 1;
+            font-weight: 800;
+            color: #fff4e8;
+          "
+        >
+          System Architecture
+        </div>
       </div>
 
-      <div style="margin-top:18px; font-size:42px; line-height:1; font-weight:800; color:#fff4e8;">
-        System Architecture
+      <!-- main panel -->
+      <div
+        style="
+          margin-top: 22px;
+          height: 522px;
+          border-radius: 30px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+          );
+          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+          padding: 26px 26px 22px 26px;
+          box-sizing: border-box;
+        "
+      >
+        <!-- panel top -->
+        <div
+          style="
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <div style="font-size: 22px; font-weight: 700; color: #fff1e2">
+            Coffee Supply Chain Traceability Flow
+          </div>
+          <div
+            style="
+              font-size: 14px;
+              color: #c9a687;
+              text-align: right;
+              white-space: nowrap;
+            "
+          >
+            Off-chain metadata + On-chain proof
+          </div>
+        </div>
+
+        <!-- architecture row -->
+        <div
+          style="
+            margin-top: 34px;
+            height: 220px;
+            display: grid;
+            grid-template-columns: 205px 28px 205px 28px 220px 28px 205px;
+            column-gap: 8px;
+            align-items: stretch;
+            justify-content: center;
+          "
+        >
+          <!-- frontend -->
+          <div
+            style="
+              height: 220px;
+              border-radius: 24px;
+              padding: 18px 16px;
+              box-sizing: border-box;
+              background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.09) 0%,
+                rgba(255, 255, 255, 0.04) 100%
+              );
+              border: 1px solid rgba(255, 255, 255, 0.12);
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 30px; line-height: 1">☕</div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 22px;
+                line-height: 1.15;
+                font-weight: 800;
+                color: #fff4e8;
+              "
+            >
+              Frontend
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 13px;
+                line-height: 1.6;
+                color: #dcc8b9;
+              "
+            >
+              Multi-page web UI for batch creation, event updates, trace
+              timelines, and proof viewing.
+            </div>
+          </div>
+
+          <!-- arrow -->
+          <div
+            style="
+              height: 220px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 26px;
+              color: #d39a63;
+              font-weight: bold;
+            "
+          >
+            →
+          </div>
+
+          <!-- gateway -->
+          <div
+            style="
+              height: 220px;
+              border-radius: 24px;
+              padding: 18px 16px;
+              box-sizing: border-box;
+              background: linear-gradient(
+                180deg,
+                rgba(212, 154, 99, 0.18) 0%,
+                rgba(255, 255, 255, 0.04) 100%
+              );
+              border: 1px solid rgba(212, 154, 99, 0.34);
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 30px; line-height: 1">⚡</div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 22px;
+                line-height: 1.15;
+                font-weight: 800;
+                color: #fff4e8;
+              "
+            >
+              API Gateway
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 13px;
+                line-height: 1.6;
+                color: #dcc8b9;
+              "
+            >
+              Central entry point that routes requests between the client and
+              backend services.
+            </div>
+          </div>
+
+          <!-- arrow -->
+          <div
+            style="
+              height: 220px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 26px;
+              color: #d39a63;
+              font-weight: bold;
+            "
+          >
+            →
+          </div>
+
+          <!-- backend -->
+          <div
+            style="
+              height: 220px;
+              border-radius: 24px;
+              padding: 18px 16px;
+              box-sizing: border-box;
+              background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.09) 0%,
+                rgba(255, 255, 255, 0.04) 100%
+              );
+              border: 1px solid rgba(255, 255, 255, 0.12);
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 30px; line-height: 1">🛠️</div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 20px;
+                line-height: 1.2;
+                font-weight: 800;
+                color: #fff4e8;
+              "
+            >
+              Node.js +<br />Express API
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 13px;
+                line-height: 1.6;
+                color: #dcc8b9;
+              "
+            >
+              Handles batch creation, event logic, tracing, and blockchain proof
+              operations.
+            </div>
+          </div>
+
+          <!-- arrow -->
+          <div
+            style="
+              height: 220px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 26px;
+              color: #d39a63;
+              font-weight: bold;
+            "
+          >
+            →
+          </div>
+
+          <!-- blockchain -->
+          <div
+            style="
+              height: 220px;
+              border-radius: 24px;
+              padding: 18px 16px;
+              box-sizing: border-box;
+              background: linear-gradient(
+                180deg,
+                rgba(93, 162, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.04) 100%
+              );
+              border: 1px solid rgba(115, 180, 255, 0.36);
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 30px; line-height: 1">⛓️</div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 22px;
+                line-height: 1.15;
+                font-weight: 800;
+                color: #fff4e8;
+              "
+            >
+              Algorand<br />LocalNet
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 13px;
+                line-height: 1.6;
+                color: #dcc8b9;
+              "
+            >
+              Small smart contract records proof references and visible state
+              counters.
+            </div>
+          </div>
+        </div>
+
+        <!-- bottom info cards -->
+        <div
+          style="
+            margin-top: 28px;
+            height: 142px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            align-items: stretch;
+          "
+        >
+          <div
+            style="
+              height: 142px;
+              border-radius: 22px;
+              padding: 18px 18px;
+              box-sizing: border-box;
+              background: rgba(255, 255, 255, 0.04);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 18px; font-weight: 800; color: #ffd9b7">
+              Off-chain layer
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                font-size: 14px;
+                line-height: 1.62;
+                color: #d8c5b5;
+              "
+            >
+              Batch metadata, coffee origin, status history, and timeline events
+              are stored in JSON for flexible querying and fast frontend
+              rendering.
+            </div>
+          </div>
+
+          <div
+            style="
+              height: 142px;
+              border-radius: 22px;
+              padding: 18px 18px;
+              box-sizing: border-box;
+              background: rgba(255, 255, 255, 0.04);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+            "
+          >
+            <div style="font-size: 18px; font-weight: 800; color: #9fd1ff">
+              On-chain layer
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                font-size: 14px;
+                line-height: 1.62;
+                color: #d8c5b5;
+              "
+            >
+              Proof anchoring stores transaction evidence on Algorand, including
+              the app ID, transaction ID, and contract counters.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- main panel -->
-    <div style="margin-top:22px; height:522px; border-radius:30px; border:1px solid rgba(255,255,255,0.10); background:linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%); box-shadow:0 24px 70px rgba(0,0,0,0.34); padding:26px 26px 22px 26px; box-sizing:border-box;">
-
-      <!-- panel top -->
-      <div style="height:30px; display:flex; align-items:center; justify-content:space-between;">
-        <div style="font-size:22px; font-weight:700; color:#fff1e2;">
-          Coffee Supply Chain Traceability Flow
-        </div>
-        <div style="font-size:14px; color:#c9a687; text-align:right; white-space:nowrap;">
-          Off-chain metadata + On-chain proof
-        </div>
-      </div>
-
-      <!-- architecture row -->
-      <div style="margin-top:34px; height:220px; display:grid; grid-template-columns: 205px 28px 205px 28px 220px 28px 205px; column-gap:8px; align-items:stretch; justify-content:center;">
-
-        <!-- frontend -->
-        <div style="height:220px; border-radius:24px; padding:18px 16px; box-sizing:border-box; background:linear-gradient(180deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%); border:1px solid rgba(255,255,255,0.12); box-shadow:0 10px 24px rgba(0,0,0,0.22); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:30px; line-height:1;">☕</div>
-          <div style="margin-top:12px; font-size:22px; line-height:1.15; font-weight:800; color:#fff4e8;">
-            Frontend
-          </div>
-          <div style="margin-top:12px; font-size:13px; line-height:1.6; color:#dcc8b9;">
-            Multi-page web UI for batch creation, event updates, trace timelines, and proof viewing.
-          </div>
-        </div>
-
-        <!-- arrow -->
-        <div style="height:220px; display:flex; align-items:center; justify-content:center; font-size:26px; color:#d39a63; font-weight:bold;">
-          →
-        </div>
-
-        <!-- gateway -->
-        <div style="height:220px; border-radius:24px; padding:18px 16px; box-sizing:border-box; background:linear-gradient(180deg, rgba(212,154,99,0.18) 0%, rgba(255,255,255,0.04) 100%); border:1px solid rgba(212,154,99,0.34); box-shadow:0 10px 24px rgba(0,0,0,0.22); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:30px; line-height:1;">⚡</div>
-          <div style="margin-top:12px; font-size:22px; line-height:1.15; font-weight:800; color:#fff4e8;">
-            API Gateway
-          </div>
-          <div style="margin-top:12px; font-size:13px; line-height:1.6; color:#dcc8b9;">
-            Central entry point that routes requests between the client and backend services.
-          </div>
-        </div>
-
-        <!-- arrow -->
-        <div style="height:220px; display:flex; align-items:center; justify-content:center; font-size:26px; color:#d39a63; font-weight:bold;">
-          →
-        </div>
-
-        <!-- backend -->
-        <div style="height:220px; border-radius:24px; padding:18px 16px; box-sizing:border-box; background:linear-gradient(180deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%); border:1px solid rgba(255,255,255,0.12); box-shadow:0 10px 24px rgba(0,0,0,0.22); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:30px; line-height:1;">🛠️</div>
-          <div style="margin-top:12px; font-size:20px; line-height:1.2; font-weight:800; color:#fff4e8;">
-            Node.js +<br>Express API
-          </div>
-          <div style="margin-top:12px; font-size:13px; line-height:1.6; color:#dcc8b9;">
-            Handles batch creation, event logic, tracing, and blockchain proof operations.
-          </div>
-        </div>
-
-        <!-- arrow -->
-        <div style="height:220px; display:flex; align-items:center; justify-content:center; font-size:26px; color:#d39a63; font-weight:bold;">
-          →
-        </div>
-
-        <!-- blockchain -->
-        <div style="height:220px; border-radius:24px; padding:18px 16px; box-sizing:border-box; background:linear-gradient(180deg, rgba(93,162,255,0.18) 0%, rgba(255,255,255,0.04) 100%); border:1px solid rgba(115,180,255,0.36); box-shadow:0 10px 24px rgba(0,0,0,0.22); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:30px; line-height:1;">⛓️</div>
-          <div style="margin-top:12px; font-size:22px; line-height:1.15; font-weight:800; color:#fff4e8;">
-            Algorand<br>LocalNet
-          </div>
-          <div style="margin-top:12px; font-size:13px; line-height:1.6; color:#dcc8b9;">
-            Small smart contract records proof references and visible state counters.
-          </div>
-        </div>
-      </div>
-
-      <!-- bottom info cards -->
-      <div style="margin-top:28px; height:142px; display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:stretch;">
-
-        <div style="height:142px; border-radius:22px; padding:18px 18px; box-sizing:border-box; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:18px; font-weight:800; color:#ffd9b7;">
-            Off-chain layer
-          </div>
-          <div style="margin-top:10px; font-size:14px; line-height:1.62; color:#d8c5b5;">
-            Batch metadata, coffee origin, status history, and timeline events are stored in JSON for flexible querying and fast frontend rendering.
-          </div>
-        </div>
-
-        <div style="height:142px; border-radius:22px; padding:18px 18px; box-sizing:border-box; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; justify-content:flex-start;">
-          <div style="font-size:18px; font-weight:800; color:#9fd1ff;">
-            On-chain layer
-          </div>
-          <div style="margin-top:10px; font-size:14px; line-height:1.62; color:#d8c5b5;">
-            Proof anchoring stores transaction evidence on Algorand, including the app ID, transaction ID, and contract counters.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</body>
+  </body>
 </html>

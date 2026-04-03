@@ -22,13 +22,13 @@ Brewchain is a hybrid decentralised application (DApp) for tracking coffee batch
 
 ## Technology Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | Vanilla HTML, CSS, JavaScript — single page, no framework |
-| API | Node.js, Express 5, algosdk v3, ESM modules |
-| Gateway | Node.js, Express 5, http-proxy-middleware |
-| Smart contract | PyTeal (Python), TEAL v8 |
-| Blockchain | Algorand LocalNet (via AlgoKit) |
+| Layer          | Technology                                                |
+| -------------- | --------------------------------------------------------- |
+| Frontend       | Vanilla HTML, CSS, JavaScript — single page, no framework |
+| API            | Node.js, Express 5, algosdk v3, ESM modules               |
+| Gateway        | Node.js, Express 5, http-proxy-middleware                 |
+| Smart contract | PyTeal (Python), TEAL v8                                  |
+| Blockchain     | Algorand LocalNet (via AlgoKit)                           |
 
 ## Architecture
 
@@ -81,17 +81,17 @@ A small Algorand smart contract written in PyTeal and compiled to TEAL v8.
 
 **Global state:**
 
-| Key | Type | Description |
-|---|---|---|
-| `creator` | bytes | Address of the account that deployed the contract |
-| `batch_count` | uint | Total number of `create_batch` calls received |
-| `event_anchor_count` | uint | Total number of `anchor_event` calls received |
+| Key                  | Type  | Description                                       |
+| -------------------- | ----- | ------------------------------------------------- |
+| `creator`            | bytes | Address of the account that deployed the contract |
+| `batch_count`        | uint  | Total number of `create_batch` calls received     |
+| `event_anchor_count` | uint  | Total number of `anchor_event` calls received     |
 
 **Accepted NoOp application call arguments:**
 
-| Argument | Effect |
-|---|---|
-| `create_batch` | Increments `batch_count` by 1 |
+| Argument       | Effect                               |
+| -------------- | ------------------------------------ |
+| `create_batch` | Increments `batch_count` by 1        |
 | `anchor_event` | Increments `event_anchor_count` by 1 |
 
 **Compiled artifacts:**
@@ -137,16 +137,16 @@ Both proof types store the resulting `txId` and `appId` back into the batch reco
 
 ## API Routes
 
-| Method | Route | Description |
-|---|---|---|
-| `GET` | `/health` | Health check — returns service name and timestamp |
-| `GET` | `/batches` | Return all batches |
-| `GET` | `/batches/:batchId` | Return a single batch by ID |
-| `POST` | `/batches` | Create a new batch |
-| `POST` | `/batches/:batchId/events` | Add an event to a batch and auto-anchor event proof |
-| `POST` | `/batches/:batchId/anchor-proof` | Anchor batch-level proof on Algorand |
-| `GET` | `/batches/:batchId/trace` | Return full trace timeline and proof details |
-| `GET` | `/blockchain/app-state` | Return live smart contract global state |
+| Method | Route                            | Description                                         |
+| ------ | -------------------------------- | --------------------------------------------------- |
+| `GET`  | `/health`                        | Health check — returns service name and timestamp   |
+| `GET`  | `/batches`                       | Return all batches                                  |
+| `GET`  | `/batches/:batchId`              | Return a single batch by ID                         |
+| `POST` | `/batches`                       | Create a new batch                                  |
+| `POST` | `/batches/:batchId/events`       | Add an event to a batch and auto-anchor event proof |
+| `POST` | `/batches/:batchId/anchor-proof` | Anchor batch-level proof on Algorand                |
+| `GET`  | `/batches/:batchId/trace`        | Return full trace timeline and proof details        |
+| `GET`  | `/blockchain/app-state`          | Return live smart contract global state             |
 
 ## Project Structure
 
@@ -246,6 +246,7 @@ API_BASE_URL=http://127.0.0.1:3001
 ```
 
 This script starts:
+
 1. Algorand LocalNet (via AlgoKit)
 2. API on port `3001`
 3. Gateway on port `4000`
@@ -254,6 +255,7 @@ This script starts:
 When running in GitHub Codespaces it also sets ports `3000`, `3001`, and `8080` to public visibility automatically.
 
 Logs are written to:
+
 - `api/api.log`
 - `gateway/gateway.log`
 - `frontend/frontend.log`

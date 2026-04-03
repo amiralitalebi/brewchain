@@ -15,6 +15,7 @@ The project is designed to provide a simple and clear implementation of a hybrid
 ## Scope
 
 Version 1 includes:
+
 - create batch
 - view all batches
 - view one batch
@@ -32,6 +33,7 @@ Version 1 includes:
 ## Out of Scope
 
 The following are excluded from version 1:
+
 - authentication
 - advanced role management
 - NFT or token marketplace features
@@ -43,6 +45,7 @@ The following are excluded from version 1:
 ## Architecture
 
 The project structure is:
+
 - `frontend/`
 - `api/`
 - `gateway/`
@@ -50,18 +53,23 @@ The project structure is:
 - `docs/`
 
 ### Frontend
+
 A multi-page web interface for creating batches, viewing batches, adding events, tracing timelines, and viewing batch proof and event proof information.
 
 ### API
+
 A Node.js and Express backend for batch handling, event handling, trace responses, batch proof anchoring, event proof anchoring, and blockchain state lookup.
 
 ### Gateway
+
 An Express gateway that forwards frontend requests to the API.
 
 ### Smart Contract
+
 A small Algorand smart contract used for proof anchoring support.
 
 Current contract behaviour:
+
 - stores `creator`
 - stores `batch_count`
 - stores `event_anchor_count`
@@ -71,6 +79,7 @@ Current contract behaviour:
 - increments `event_anchor_count` when `anchor_event` is called
 
 ### Storage Model
+
 - off-chain batch metadata storage
 - on-chain batch proof anchoring on Algorand
 - on-chain event proof anchoring on Algorand

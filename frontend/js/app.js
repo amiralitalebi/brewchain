@@ -1,5 +1,6 @@
 const API_BASE_URL =
-  window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost"
     ? "http://127.0.0.1:3001"
     : `${window.location.protocol}//${window.location.hostname.replace("-8080", "-3000")}/api`;
 
@@ -71,11 +72,13 @@ function getStagePreset(stage) {
     },
     Harvested: {
       location: "Coffee Farm",
-      description: "Coffee cherries harvested and prepared for primary processing"
+      description:
+        "Coffee cherries harvested and prepared for primary processing"
     },
     Processed: {
       location: "Processing Station",
-      description: "Beans processed and prepared for the next supply chain stage"
+      description:
+        "Beans processed and prepared for the next supply chain stage"
     },
     Roasted: {
       location: "London Roastery",
@@ -95,10 +98,12 @@ function getStagePreset(stage) {
     }
   };
 
-  return presets[stage] || {
-    location: "",
-    description: ""
-  };
+  return (
+    presets[stage] || {
+      location: "",
+      description: ""
+    }
+  );
 }
 
 function applyStagePreset() {
@@ -161,7 +166,8 @@ function renderBatches(batches) {
     .map((batch) => {
       const proof = getProofData(batch.proof);
       const proofText = getProofStatusLabel(proof.proofStatus);
-      const selectedClass = batch.batchId === state.selectedBatchId ? " is-selected" : "";
+      const selectedClass =
+        batch.batchId === state.selectedBatchId ? " is-selected" : "";
 
       return `
         <article class="batch-card${selectedClass}" data-batch-id="${batch.batchId}" data-status="${batch.status.toLowerCase()}">
@@ -201,7 +207,9 @@ async function renderTrace(data) {
   const proofTxId = proof.txId || "Not anchored yet";
   const proofAppId = proof.appId || "Not anchored yet";
   const proofStatus = getProofStatusLabel(proof.proofStatus);
-  const anchoredAt = proof.anchoredAt ? formatDate(proof.anchoredAt) : "Not anchored yet";
+  const anchoredAt = proof.anchoredAt
+    ? formatDate(proof.anchoredAt)
+    : "Not anchored yet";
 
   let blockchainState = {
     appId: proof.appId || "Not available",
@@ -218,7 +226,8 @@ async function renderTrace(data) {
       blockchainState = {
         appId: appStateData.appId ?? proof.appId ?? "Not available",
         batchCount: appStateData.globalState?.batch_count ?? "Not available",
-        eventAnchorCount: appStateData.globalState?.event_anchor_count ?? "Not available",
+        eventAnchorCount:
+          appStateData.globalState?.event_anchor_count ?? "Not available",
         creator: appStateData.globalState?.creator ?? "Not available"
       };
     }
@@ -368,12 +377,15 @@ async function anchorProof(batchId) {
   clearMessage(proofMessage);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/batches/${batchId}/anchor-proof`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+    const response = await fetch(
+      `${API_BASE_URL}/batches/${batchId}/anchor-proof`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    });
+    );
 
     const data = await response.json();
 
@@ -423,7 +435,11 @@ createBatchForm.addEventListener("submit", async (event) => {
       throw new Error(data.message || "Failed to create batch");
     }
 
-    showMessage(createMessage, `Batch ${data.batchId} created successfully.`, "success");
+    showMessage(
+      createMessage,
+      `Batch ${data.batchId} created successfully.`,
+      "success"
+    );
 
     createBatchForm.reset();
     document.getElementById("coffeeType").value = "Arabica";
@@ -464,7 +480,11 @@ addEventForm.addEventListener("submit", async (event) => {
       throw new Error(data.message || "Failed to add event");
     }
 
-    showMessage(eventMessage, `Event added to batch ${batchId} successfully.`, "success");
+    showMessage(
+      eventMessage,
+      `Event added to batch ${batchId} successfully.`,
+      "success"
+    );
 
     await selectBatch(batchId);
   } catch (error) {

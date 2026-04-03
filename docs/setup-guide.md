@@ -7,6 +7,7 @@ This guide explains how to run Brewchain locally for development and testing.
 ## Project Structure
 
 Main folders:
+
 - `frontend/`
 - `api/`
 - `gateway/`
@@ -16,6 +17,7 @@ Main folders:
 ## Requirements
 
 Make sure the following are installed:
+
 - Git
 - Node.js and npm
 - Python 3
@@ -139,3 +141,4 @@ proof is anchored on Algorand
 both batch proof and event proof are supported
 the smart contract is intentionally small for version 1
 the current deployed app ID in the latest project state is 1022
+```

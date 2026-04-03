@@ -1,392 +1,558 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brewchain — Coffee Supply Chain Traceability</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/styles.css?v=3" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brewchain — Coffee Supply Chain Traceability</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css?v=3" />
+  </head>
+  <body>
+    <!-- Atmospheric background layer -->
+    <div class="atmosphere" aria-hidden="true">
+      <div class="atmo-blob atmo-blob-a"></div>
+      <div class="atmo-blob atmo-blob-b"></div>
+      <div class="atmo-blob atmo-blob-c"></div>
+      <canvas id="steam-canvas" class="steam-canvas"></canvas>
+      <div class="grain-overlay"></div>
+      <div class="grid-overlay"></div>
+    </div>
 
-  <!-- Atmospheric background layer -->
-  <div class="atmosphere" aria-hidden="true">
-    <div class="atmo-blob atmo-blob-a"></div>
-    <div class="atmo-blob atmo-blob-b"></div>
-    <div class="atmo-blob atmo-blob-c"></div>
-    <canvas id="steam-canvas" class="steam-canvas"></canvas>
-    <div class="grain-overlay"></div>
-    <div class="grid-overlay"></div>
-  </div>
-
-  <div class="shell">
-
-    <!-- ─── Sidebar ─────────────────────────────────────────── -->
-    <aside class="sidebar">
-
-      <div class="sidebar-brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="color: #ffffff;">
-            <path d="M12 18.5H28.5V24C28.5 30.0751 23.5751 35 17.5 35C11.4249 35 6.5 30.0751 6.5 24V24.5C6.5 21.1863 9.18629 18.5 12.5 18.5H12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M28.5 20H31C34.0376 20 36.5 22.4624 36.5 25.5C36.5 28.5376 34.0376 31 31 31H28.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10 38H31" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M16 14.5C16 12.8 14.8 11.7 13.9 10.8C13.1 10 12.5 9.2 12.5 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M22 14.5C22 12.8 20.8 11.7 19.9 10.8C19.1 10 18.5 9.2 18.5 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M28 14.5C28 12.8 26.8 11.7 25.9 10.8C25.1 10 24.5 9.2 24.5 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="brand-copy">
-          <h1 class="brand-name">Brewchain</h1>
-          <p class="brand-sub">Coffee Supply Chain</p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="sb-section">
-        <p class="sb-label">System Status</p>
-        <div class="status-list">
-          <div class="status-row">
-            <span class="pulse-dot pulse-green"></span>
-            <span class="status-name">Algorand</span>
-            <span class="status-val">LocalNet</span>
+    <div class="shell">
+      <!-- ─── Sidebar ─────────────────────────────────────────── -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-icon">
+            <svg
+              viewBox="0 0 44 44"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              style="color: #ffffff"
+            >
+              <path
+                d="M12 18.5H28.5V24C28.5 30.0751 23.5751 35 17.5 35C11.4249 35 6.5 30.0751 6.5 24V24.5C6.5 21.1863 9.18629 18.5 12.5 18.5H12Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M28.5 20H31C34.0376 20 36.5 22.4624 36.5 25.5C36.5 28.5376 34.0376 31 31 31H28.5"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10 38H31"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+              <path
+                d="M16 14.5C16 12.8 14.8 11.7 13.9 10.8C13.1 10 12.5 9.2 12.5 8"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+              <path
+                d="M22 14.5C22 12.8 20.8 11.7 19.9 10.8C19.1 10 18.5 9.2 18.5 8"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+              <path
+                d="M28 14.5C28 12.8 26.8 11.7 25.9 10.8C25.1 10 24.5 9.2 24.5 8"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+            </svg>
           </div>
-          <div class="status-row">
-            <span class="pulse-dot pulse-green"></span>
-            <span class="status-name">API</span>
-            <span class="status-val">Online</span>
-          </div>
-          <div class="status-row">
-            <span class="pulse-dot pulse-green"></span>
-            <span class="status-name">Batch Registry</span>
-            <span class="status-val">Active</span>
+          <div class="brand-copy">
+            <h1 class="brand-name">Brewchain</h1>
+            <p class="brand-sub">Coffee Supply Chain</p>
           </div>
         </div>
-      </div>
 
-      <div class="divider"></div>
+        <div class="divider"></div>
 
-      <div class="sb-section">
-        <p class="sb-label">Supply Chain Flow</p>
-        <div class="chain-flow">
-          <div class="chain-step" data-stage="created"><div class="cs-dot"></div><span>Created</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="harvested"><div class="cs-dot"></div><span>Harvested</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="processed"><div class="cs-dot"></div><span>Processed</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="roasted"><div class="cs-dot"></div><span>Roasted</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="packaged"><div class="cs-dot"></div><span>Packaged</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="shipped"><div class="cs-dot"></div><span>Shipped</span></div>
-          <div class="chain-line"></div>
-          <div class="chain-step" data-stage="delivered"><div class="cs-dot"></div><span>Delivered</span></div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="sb-section sb-guide">
-        <p class="sb-label">Quick Guide</p>
-        <ul class="guide-list">
-          <li>Generate or type a batch ID above</li>
-          <li>Select coffee type and origin</li>
-          <li>Add events as the batch progresses</li>
-          <li>Anchor on-chain proof when ready</li>
-        </ul>
-      </div>
-
-      <div class="sidebar-foot">
-        <span class="foot-tag">Hybrid DApp</span>
-        <span class="foot-sep">·</span>
-        <span class="foot-tag">Algorand Ready</span>
-      </div>
-
-    </aside>
-
-    <!-- ─── Main workspace ──────────────────────────────────── -->
-    <main class="workspace">
-
-      <!-- Page header -->
-      <header class="page-header">
-        <div class="ph-left">
-          <div class="ph-eyebrow">Supply Chain Workspace</div>
-          <h2 class="ph-title">Track. Verify. <em>Anchor.</em></h2>
-          <p class="ph-sub">Off-chain batch management with Algorand proof anchoring for full traceability across the coffee supply chain.</p>
-        </div>
-        <div class="ph-chips">
-          <div class="hchip">
-            <span class="hchip-icon">🤎</span>
-            <div>
-              <span class="hchip-label">Registry</span>
-              <strong>Batch Operations</strong>
+        <div class="sb-section">
+          <p class="sb-label">System Status</p>
+          <div class="status-list">
+            <div class="status-row">
+              <span class="pulse-dot pulse-green"></span>
+              <span class="status-name">Algorand</span>
+              <span class="status-val">LocalNet</span>
             </div>
-          </div>
-          <div class="hchip">
-            <span class="hchip-icon">⛓</span>
-            <div>
-              <span class="hchip-label">Proof Model</span>
-              <strong>Off-chain + On-chain</strong>
+            <div class="status-row">
+              <span class="pulse-dot pulse-green"></span>
+              <span class="status-name">API</span>
+              <span class="status-val">Online</span>
             </div>
-          </div>
-          <div class="hchip">
-            <span class="hchip-icon">🛡</span>
-            <div>
-              <span class="hchip-label">Verification</span>
-              <strong>Trace &amp; Anchor</strong>
+            <div class="status-row">
+              <span class="pulse-dot pulse-green"></span>
+              <span class="status-name">Batch Registry</span>
+              <span class="status-val">Active</span>
             </div>
           </div>
         </div>
-      </header>
 
-      <!-- Two-column content grid -->
-      <div class="content-grid">
+        <div class="divider"></div>
 
-        <!-- Left column: forms -->
-        <div class="forms-column">
+        <div class="sb-section">
+          <p class="sb-label">Supply Chain Flow</p>
+          <div class="chain-flow">
+            <div class="chain-step" data-stage="created">
+              <div class="cs-dot"></div>
+              <span>Created</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="harvested">
+              <div class="cs-dot"></div>
+              <span>Harvested</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="processed">
+              <div class="cs-dot"></div>
+              <span>Processed</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="roasted">
+              <div class="cs-dot"></div>
+              <span>Roasted</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="packaged">
+              <div class="cs-dot"></div>
+              <span>Packaged</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="shipped">
+              <div class="cs-dot"></div>
+              <span>Shipped</span>
+            </div>
+            <div class="chain-line"></div>
+            <div class="chain-step" data-stage="delivered">
+              <div class="cs-dot"></div>
+              <span>Delivered</span>
+            </div>
+          </div>
+        </div>
 
-          <!-- Create Batch panel -->
-          <section class="panel animate-in" style="--delay: 0.05s">
-            <div class="panel-top">
+        <div class="divider"></div>
+
+        <div class="sb-section sb-guide">
+          <p class="sb-label">Quick Guide</p>
+          <ul class="guide-list">
+            <li>Generate or type a batch ID above</li>
+            <li>Select coffee type and origin</li>
+            <li>Add events as the batch progresses</li>
+            <li>Anchor on-chain proof when ready</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-foot">
+          <span class="foot-tag">Hybrid DApp</span>
+          <span class="foot-sep">·</span>
+          <span class="foot-tag">Algorand Ready</span>
+        </div>
+      </aside>
+
+      <!-- ─── Main workspace ──────────────────────────────────── -->
+      <main class="workspace">
+        <!-- Page header -->
+        <header class="page-header">
+          <div class="ph-left">
+            <div class="ph-eyebrow">Supply Chain Workspace</div>
+            <h2 class="ph-title">Track. Verify. <em>Anchor.</em></h2>
+            <p class="ph-sub">
+              Off-chain batch management with Algorand proof anchoring for full
+              traceability across the coffee supply chain.
+            </p>
+          </div>
+          <div class="ph-chips">
+            <div class="hchip">
+              <span class="hchip-icon">🤎</span>
               <div>
-                <span class="chip chip-create">Create</span>
-                <h3 class="panel-title">Register Batch</h3>
-                <p class="panel-sub">Create a new coffee batch entry with smart defaults.</p>
+                <span class="hchip-label">Registry</span>
+                <strong>Batch Operations</strong>
               </div>
-              <div class="panel-glyph">＋</div>
             </div>
-
-            <form id="create-batch-form" class="form" autocomplete="off">
-              <div class="field">
-                <label for="batchId">Batch ID</label>
-                <div class="field-inline">
-                  <input type="text" id="batchId" placeholder="BATCH-20250402-143022" required />
-                  <button type="button" id="generate-batch-id-btn" class="btn-ghost btn-compact">Generate</button>
-                </div>
-              </div>
-
-              <div class="field-pair">
-                <div class="field">
-                  <label for="coffeeType">Coffee Type</label>
-                  <select id="coffeeType" required>
-                    <option value="Arabica" selected>Arabica</option>
-                    <option value="Robusta">Robusta</option>
-                    <option value="Blend">Blend</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="origin">Origin</label>
-                  <select id="origin" required>
-                    <option value="Colombia" selected>Colombia</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="Ethiopia">Ethiopia</option>
-                    <option value="Kenya">Kenya</option>
-                    <option value="Vietnam">Vietnam</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="status">Initial Status</label>
-                <select id="status" required>
-                  <option value="Created" selected>Created</option>
-                  <option value="Harvested">Harvested</option>
-                  <option value="Processed">Processed</option>
-                  <option value="Roasted">Roasted</option>
-                  <option value="Packaged">Packaged</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
-              </div>
-
-              <button type="submit" class="btn-primary">
-                Register Batch
-                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </form>
-
-            <div id="create-message" class="message-box hidden"></div>
-          </section>
-
-          <!-- Add Event panel -->
-          <section class="panel animate-in" style="--delay: 0.12s">
-            <div class="panel-top">
+            <div class="hchip">
+              <span class="hchip-icon">⛓</span>
               <div>
-                <span class="chip chip-update">Update</span>
-                <h3 class="panel-title">Add Event</h3>
-                <p class="panel-sub">Push a batch through its next supply chain stage.</p>
+                <span class="hchip-label">Proof Model</span>
+                <strong>Off-chain + On-chain</strong>
               </div>
-              <div class="panel-glyph">⤴</div>
             </div>
-
-            <form id="add-event-form" class="form" autocomplete="off">
-              <div class="field">
-                <label for="eventBatchId">Batch ID</label>
-                <input type="text" id="eventBatchId" placeholder="Select from registry or type an ID" required />
-              </div>
-
-              <div class="field">
-                <label for="stage">Stage</label>
-                <select id="stage" required>
-                  <option value="Created">Created</option>
-                  <option value="Harvested">Harvested</option>
-                  <option value="Processed">Processed</option>
-                  <option value="Roasted" selected>Roasted</option>
-                  <option value="Packaged">Packaged</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="location">Location</label>
-                <input type="text" id="location" value="London Roastery" required />
-              </div>
-
-              <div class="field">
-                <label for="description">Description</label>
-                <textarea id="description" rows="3" required>Beans roasted and prepared for packaging</textarea>
-              </div>
-
-              <button type="submit" class="btn-primary">
-                Add Event
-                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </form>
-
-            <div id="event-message" class="message-box hidden"></div>
-          </section>
-
-        </div><!-- /forms-column -->
-
-        <!-- Right column: registry + trace -->
-        <div class="data-column">
-
-          <!-- Batch Registry panel -->
-          <section class="panel animate-in" style="--delay: 0.18s">
-            <div class="panel-top panel-top-row">
+            <div class="hchip">
+              <span class="hchip-icon">🛡</span>
               <div>
-                <span class="chip chip-registry">Registry</span>
-                <h3 class="panel-title">Batch Registry</h3>
-                <p class="panel-sub">Active coffee lots and their current status.</p>
+                <span class="hchip-label">Verification</span>
+                <strong>Trace &amp; Anchor</strong>
               </div>
-              <button id="load-batches-btn" type="button" class="btn-ghost">
-                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                  <path d="M12 6.5A5.5 5.5 0 1 1 6.5 1v0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  <path d="M6.5 1l2 2-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Refresh
-              </button>
             </div>
-            <div id="batches-list" class="batches-grid"></div>
-          </section>
+          </div>
+        </header>
 
-          <!-- Timeline Explorer panel -->
-          <section class="panel animate-in" style="--delay: 0.24s">
-            <div class="panel-top panel-top-col">
-              <div class="panel-top-row">
+        <!-- Two-column content grid -->
+        <div class="content-grid">
+          <!-- Left column: forms -->
+          <div class="forms-column">
+            <!-- Create Batch panel -->
+            <section class="panel animate-in" style="--delay: 0.05s">
+              <div class="panel-top">
                 <div>
-                  <span class="chip chip-trace">Trace</span>
-                  <h3 class="panel-title">Timeline Explorer</h3>
-                  <p class="panel-sub">Inspect batch movement and proof-ready references.</p>
+                  <span class="chip chip-create">Create</span>
+                  <h3 class="panel-title">Register Batch</h3>
+                  <p class="panel-sub">
+                    Create a new coffee batch entry with smart defaults.
+                  </p>
                 </div>
+                <div class="panel-glyph">＋</div>
               </div>
-              <div class="trace-controls">
-                <input type="text" id="traceBatchId" placeholder="Select a batch from the registry…" readonly />
-                <button id="anchor-proof-btn" type="button" class="btn-teal btn-compact">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M6.2 9.8L4.6 11.4a2.55 2.55 0 103.6 3.6l2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M9.8 6.2l1.6-1.6a2.55 2.55 0 10-3.6-3.6l-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6 10l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
+              <form id="create-batch-form" class="form" autocomplete="off">
+                <div class="field">
+                  <label for="batchId">Batch ID</label>
+                  <div class="field-inline">
+                    <input
+                      type="text"
+                      id="batchId"
+                      placeholder="BATCH-20250402-143022"
+                      required
+                    />
+                    <button
+                      type="button"
+                      id="generate-batch-id-btn"
+                      class="btn-ghost btn-compact"
+                    >
+                      Generate
+                    </button>
+                  </div>
+                </div>
+
+                <div class="field-pair">
+                  <div class="field">
+                    <label for="coffeeType">Coffee Type</label>
+                    <select id="coffeeType" required>
+                      <option value="Arabica" selected>Arabica</option>
+                      <option value="Robusta">Robusta</option>
+                      <option value="Blend">Blend</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="origin">Origin</label>
+                    <select id="origin" required>
+                      <option value="Colombia" selected>Colombia</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Ethiopia">Ethiopia</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Vietnam">Vietnam</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="status">Initial Status</label>
+                  <select id="status" required>
+                    <option value="Created" selected>Created</option>
+                    <option value="Harvested">Harvested</option>
+                    <option value="Processed">Processed</option>
+                    <option value="Roasted">Roasted</option>
+                    <option value="Packaged">Packaged</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                  Register Batch
+                  <svg
+                    class="btn-arrow"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
-                  Anchor Proof
+                </button>
+              </form>
+
+              <div id="create-message" class="message-box hidden"></div>
+            </section>
+
+            <!-- Add Event panel -->
+            <section class="panel animate-in" style="--delay: 0.12s">
+              <div class="panel-top">
+                <div>
+                  <span class="chip chip-update">Update</span>
+                  <h3 class="panel-title">Add Event</h3>
+                  <p class="panel-sub">
+                    Push a batch through its next supply chain stage.
+                  </p>
+                </div>
+                <div class="panel-glyph">⤴</div>
+              </div>
+
+              <form id="add-event-form" class="form" autocomplete="off">
+                <div class="field">
+                  <label for="eventBatchId">Batch ID</label>
+                  <input
+                    type="text"
+                    id="eventBatchId"
+                    placeholder="Select from registry or type an ID"
+                    required
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="stage">Stage</label>
+                  <select id="stage" required>
+                    <option value="Created">Created</option>
+                    <option value="Harvested">Harvested</option>
+                    <option value="Processed">Processed</option>
+                    <option value="Roasted" selected>Roasted</option>
+                    <option value="Packaged">Packaged</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="location">Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    value="London Roastery"
+                    required
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="description">Description</label>
+                  <textarea id="description" rows="3" required>
+Beans roasted and prepared for packaging</textarea
+                  >
+                </div>
+
+                <button type="submit" class="btn-primary">
+                  Add Event
+                  <svg
+                    class="btn-arrow"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </form>
+
+              <div id="event-message" class="message-box hidden"></div>
+            </section>
+          </div>
+          <!-- /forms-column -->
+
+          <!-- Right column: registry + trace -->
+          <div class="data-column">
+            <!-- Batch Registry panel -->
+            <section class="panel animate-in" style="--delay: 0.18s">
+              <div class="panel-top panel-top-row">
+                <div>
+                  <span class="chip chip-registry">Registry</span>
+                  <h3 class="panel-title">Batch Registry</h3>
+                  <p class="panel-sub">
+                    Active coffee lots and their current status.
+                  </p>
+                </div>
+                <button id="load-batches-btn" type="button" class="btn-ghost">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 6.5A5.5 5.5 0 1 1 6.5 1v0"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M6.5 1l2 2-2 2"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Refresh
                 </button>
               </div>
-            </div>
+              <div id="batches-list" class="batches-grid"></div>
+            </section>
 
-<div id="proof-message" class="message-box hidden" style="margin: 12px 0 16px;"></div>
-            <div id="trace-empty" class="trace-empty">
-              <div class="te-glyph">◎</div>
-              <p>Select a batch from the registry to open the timeline.</p>
-            </div>
-
-            <div id="trace-result" class="hidden">
-              <div id="trace-summary" class="trace-summary"></div>
-              <div class="tl-section">
-                <div class="tl-header">
-                  <h4 class="tl-title">Timeline Events</h4>
-                  <span class="tl-hint">Ordered by recorded history</span>
+            <!-- Timeline Explorer panel -->
+            <section class="panel animate-in" style="--delay: 0.24s">
+              <div class="panel-top panel-top-col">
+                <div class="panel-top-row">
+                  <div>
+                    <span class="chip chip-trace">Trace</span>
+                    <h3 class="panel-title">Timeline Explorer</h3>
+                    <p class="panel-sub">
+                      Inspect batch movement and proof-ready references.
+                    </p>
+                  </div>
                 </div>
-                <div id="timeline" class="timeline"></div>
+                <div class="trace-controls">
+                  <input
+                    type="text"
+                    id="traceBatchId"
+                    placeholder="Select a batch from the registry…"
+                    readonly
+                  />
+                  <button
+                    id="anchor-proof-btn"
+                    type="button"
+                    class="btn-teal btn-compact"
+                  >
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M6.2 9.8L4.6 11.4a2.55 2.55 0 103.6 3.6l2-2"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9.8 6.2l1.6-1.6a2.55 2.55 0 10-3.6-3.6l-2 2"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M6 10l4-4"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                    Anchor Proof
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
 
-        </div><!-- /data-column -->
+              <div
+                id="proof-message"
+                class="message-box hidden"
+                style="margin: 12px 0 16px"
+              ></div>
+              <div id="trace-empty" class="trace-empty">
+                <div class="te-glyph">◎</div>
+                <p>Select a batch from the registry to open the timeline.</p>
+              </div>
 
-      </div><!-- /content-grid -->
+              <div id="trace-result" class="hidden">
+                <div id="trace-summary" class="trace-summary"></div>
+                <div class="tl-section">
+                  <div class="tl-header">
+                    <h4 class="tl-title">Timeline Events</h4>
+                    <span class="tl-hint">Ordered by recorded history</span>
+                  </div>
+                  <div id="timeline" class="timeline"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!-- /data-column -->
+        </div>
+        <!-- /content-grid -->
+      </main>
+    </div>
+    <!-- /shell -->
 
-    </main>
-  </div><!-- /shell -->
+    <script src="./js/app.js?v=2"></script>
+    <script>
+      // Atmospheric steam particle effect
+      (function () {
+        const canvas = document.getElementById("steam-canvas");
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext("2d");
+        let particles = [];
 
-  <script src="./js/app.js?v=2"></script>
-  <script>
-    // Atmospheric steam particle effect
-    (function () {
-      const canvas = document.getElementById('steam-canvas');
-      if (!canvas || !canvas.getContext) return;
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      function mkParticle() {
-        return {
-          x: Math.random() * canvas.width,
-          y: canvas.height + 10,
-          r: Math.random() * 2 + 0.5,
-          vy: Math.random() * 0.35 + 0.08,
-          vx: (Math.random() - 0.5) * 0.25,
-          alpha: Math.random() * 0.055 + 0.015,
-          decay: 0.00015 + Math.random() * 0.0001,
-        };
-      }
-
-      for (let i = 0; i < 100; i++) {
-        const p = mkParticle();
-        p.y = Math.random() * canvas.height;
-        particles.push(p);
-      }
-
-      function tick() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (Math.random() < 0.4) particles.push(mkParticle());
-        particles = particles.filter(p => p.alpha > 0.002);
-        for (const p of particles) {
-          p.y -= p.vy;
-          p.x += p.vx;
-          p.alpha -= p.decay;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(200,148,72,${p.alpha})`;
-          ctx.fill();
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         }
-        requestAnimationFrame(tick);
-      }
-      tick();
-    })();
-  </script>
-</body>
+        resize();
+        window.addEventListener("resize", resize);
+
+        function mkParticle() {
+          return {
+            x: Math.random() * canvas.width,
+            y: canvas.height + 10,
+            r: Math.random() * 2 + 0.5,
+            vy: Math.random() * 0.35 + 0.08,
+            vx: (Math.random() - 0.5) * 0.25,
+            alpha: Math.random() * 0.055 + 0.015,
+            decay: 0.00015 + Math.random() * 0.0001
+          };
+        }
+
+        for (let i = 0; i < 100; i++) {
+          const p = mkParticle();
+          p.y = Math.random() * canvas.height;
+          particles.push(p);
+        }
+
+        function tick() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (Math.random() < 0.4) particles.push(mkParticle());
+          particles = particles.filter((p) => p.alpha > 0.002);
+          for (const p of particles) {
+            p.y -= p.vy;
+            p.x += p.vx;
+            p.alpha -= p.decay;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(200,148,72,${p.alpha})`;
+            ctx.fill();
+          }
+          requestAnimationFrame(tick);
+        }
+        tick();
+      })();
+    </script>
+  </body>
 </html>

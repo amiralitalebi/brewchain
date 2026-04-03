@@ -62,9 +62,17 @@ async function sendAlgorandProofTransaction(batchId) {
   const algodPort = process.env.ALGOD_PORT;
   const algodToken = process.env.ALGOD_TOKEN;
   const algodMnemonic = process.env.ALGOD_MNEMONIC;
-  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
+  const algodAppId = process.env.ALGOD_APP_ID
+    ? Number(process.env.ALGOD_APP_ID)
+    : null;
 
-  if (!algodServer || !algodPort || !algodToken || !algodMnemonic || !algodAppId) {
+  if (
+    !algodServer ||
+    !algodPort ||
+    !algodToken ||
+    !algodMnemonic ||
+    !algodAppId
+  ) {
     throw new Error("Algorand environment variables are missing");
   }
 
@@ -93,11 +101,13 @@ async function sendAlgorandProofTransaction(batchId) {
 
   const signedTxn = txn.signTxn(account.sk);
   const response = await algodClient.sendRawTransaction(signedTxn).do();
-  const confirmation = await algosdk.waitForConfirmation(algodClient, response.txid, 4);
+  const confirmation = await algosdk.waitForConfirmation(
+    algodClient,
+    response.txid,
+    4
+  );
   const confirmedRound = Number(
-    confirmation["confirmed-round"] ??
-    confirmation.confirmedRound ??
-    0
+    confirmation["confirmed-round"] ?? confirmation.confirmedRound ?? 0
   );
 
   if (confirmedRound <= 0) {
@@ -116,9 +126,17 @@ async function sendAlgorandEventAnchor(batchId, event) {
   const algodPort = process.env.ALGOD_PORT;
   const algodToken = process.env.ALGOD_TOKEN;
   const algodMnemonic = process.env.ALGOD_MNEMONIC;
-  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
+  const algodAppId = process.env.ALGOD_APP_ID
+    ? Number(process.env.ALGOD_APP_ID)
+    : null;
 
-  if (!algodServer || !algodPort || !algodToken || !algodMnemonic || !algodAppId) {
+  if (
+    !algodServer ||
+    !algodPort ||
+    !algodToken ||
+    !algodMnemonic ||
+    !algodAppId
+  ) {
     throw new Error("Algorand environment variables are missing");
   }
 
@@ -149,11 +167,13 @@ async function sendAlgorandEventAnchor(batchId, event) {
 
   const signedTxn = txn.signTxn(account.sk);
   const response = await algodClient.sendRawTransaction(signedTxn).do();
-  const confirmation = await algosdk.waitForConfirmation(algodClient, response.txid, 4);
+  const confirmation = await algosdk.waitForConfirmation(
+    algodClient,
+    response.txid,
+    4
+  );
   const confirmedRound = Number(
-    confirmation["confirmed-round"] ??
-    confirmation.confirmedRound ??
-    0
+    confirmation["confirmed-round"] ?? confirmation.confirmedRound ?? 0
   );
 
   if (confirmedRound <= 0) {
@@ -171,7 +191,9 @@ async function readAlgorandAppState() {
   const algodServer = process.env.ALGOD_SERVER;
   const algodPort = process.env.ALGOD_PORT;
   const algodToken = process.env.ALGOD_TOKEN;
-  const algodAppId = process.env.ALGOD_APP_ID ? Number(process.env.ALGOD_APP_ID) : null;
+  const algodAppId = process.env.ALGOD_APP_ID
+    ? Number(process.env.ALGOD_APP_ID)
+    : null;
 
   if (!algodServer || !algodPort || !algodToken || !algodAppId) {
     throw new Error("Algorand environment variables are missing");
@@ -280,7 +302,9 @@ app.post("/batches/:batchId/events", async (req, res) => {
   }
 
   const batches = readBatches();
-  const batchIndex = batches.findIndex((item) => item.batchId === req.params.batchId);
+  const batchIndex = batches.findIndex(
+    (item) => item.batchId === req.params.batchId
+  );
 
   if (batchIndex === -1) {
     return res.status(404).json({
@@ -301,7 +325,10 @@ app.post("/batches/:batchId/events", async (req, res) => {
   batches[batchIndex].proof = buildDefaultProof(batches[batchIndex].proof);
 
   try {
-    const eventAnchor = await sendAlgorandEventAnchor(req.params.batchId, newEvent);
+    const eventAnchor = await sendAlgorandEventAnchor(
+      req.params.batchId,
+      newEvent
+    );
 
     newEvent.blockchainProof = {
       txId: eventAnchor.txId,
@@ -328,7 +355,9 @@ app.post("/batches/:batchId/events", async (req, res) => {
 
 app.post("/batches/:batchId/anchor-proof", async (req, res) => {
   const batches = readBatches();
-  const batchIndex = batches.findIndex((item) => item.batchId === req.params.batchId);
+  const batchIndex = batches.findIndex(
+    (item) => item.batchId === req.params.batchId
+  );
 
   if (batchIndex === -1) {
     return res.status(404).json({
@@ -383,14 +412,16 @@ app.get("/batches/:batchId/trace", (req, res) => {
     });
   }
 
-  const timeline = (Array.isArray(batch.events) ? batch.events : []).map((event) => ({
-    eventId: event.eventId,
-    stage: event.stage,
-    location: event.location,
-    description: event.description,
-    timestamp: event.timestamp,
-    blockchainProof: event.blockchainProof || null
-  }));
+  const timeline = (Array.isArray(batch.events) ? batch.events : []).map(
+    (event) => ({
+      eventId: event.eventId,
+      stage: event.stage,
+      location: event.location,
+      description: event.description,
+      timestamp: event.timestamp,
+      blockchainProof: event.blockchainProof || null
+    })
+  );
 
   res.json({
     batchId: batch.batchId,
